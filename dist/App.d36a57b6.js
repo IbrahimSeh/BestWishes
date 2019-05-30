@@ -61086,9 +61086,9 @@ function (_React$Component) {
         name: 'from',
         minLength: 2
       }),
-      Wishing: (0, _validator2.field)({
+      wishing: (0, _validator2.field)({
         value: '',
-        name: 'Wishing',
+        name: 'wishing',
         minLength: 2
       }),
       imageURL: (0, _validator2.field)({
@@ -61114,7 +61114,7 @@ function (_React$Component) {
         var userWish = JSON.parse(localStorage.getItem('userWish'));
         var wish = Object.assign({}, _this2.state);
         wish.from.value = userWish.from;
-        wish.Wishing.value = userWish.wishContent;
+        wish.wishing.value = userWish.wishContent;
         wish.imageURL.value = userWish.imageURL;
 
         _this2.setState(_objectSpread({}, wish), console.log(_this2.state));
@@ -61153,8 +61153,8 @@ function (_React$Component) {
 
       this.setState(_objectSpread({}, wish));
 
-      if (this.state.from.errors.length == 0 && this.state.Wishing.errors.length == 0 && this.state.imageURL.errors.length == 0) {
-        alert("wish updated successfully"); //  this.props.history.push("/event/" + this.props.match.params.eventID);
+      if (this.state.from.errors.length == 0 && this.state.wishing.errors.length == 0 && this.state.imageURL.errors.length == 0) {
+        alert("wish updated successfully"); // this.props.history.push("/event/" + this.props.match.params.eventID);
       }
     }
   }, {
@@ -61198,13 +61198,12 @@ function (_React$Component) {
       }))), _react.default.createElement(_reactBootstrap.Form.Control, {
         as: "textarea",
         rows: "5",
-        name: "Wishing",
-        "aria-label": "Wishing",
+        name: "wishing",
+        "aria-label": "wishing",
         placeholder: "Enter your wish",
-        id: "wishInput",
-        onBlur: this.onInputChange,
-        defaultValue: this.state.Wishing.value
-      }))), this.state.Wishing.errors.map(function (err, i) {
+        onChange: this.onInputChange,
+        value: this.state.wishing.value
+      }))), this.state.wishing.errors.map(function (err, i) {
         return _react.default.createElement(_reactBootstrap.Form.Text, {
           key: i,
           className: "text-danger"
@@ -61492,7 +61491,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62668" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56894" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
