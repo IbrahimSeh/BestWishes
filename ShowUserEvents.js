@@ -35,7 +35,7 @@ export default class ShowUserEvents extends React.Component {
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Catagory</th>
+                                    <th scope="col">Category</th>
                                     <th scope="col">Event Title</th>
                                     <th scope="col">When</th>
                                     <th scope="col">Where</th>
@@ -43,8 +43,8 @@ export default class ShowUserEvents extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.userEvents.map(({ ID, title, catagory, date, where }, i) =>
-                                <MyEventsComponent key={i} ID={ID} title={title} catagory={catagory} date={date} where={where} func={this.rowClick} buttonClickFunc={this.buttonClick}/>
+                                {this.state.userEvents.map(({ ID, title, category, date, where }, i) =>
+                                <MyEventsComponent key={i} ID={ID} title={title} category={category} date={date} where={where} func={this.rowClick} buttonClickFunc={this.buttonClick}/>
                                 )}
                                
                             </tbody>
