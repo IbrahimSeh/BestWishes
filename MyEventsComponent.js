@@ -9,7 +9,7 @@ export default class MyEventsComponent extends React.Component {
 
                 <tr>
                     <td>{this.props.ID}</td>
-                    <td>{this.props.catagory}</td>
+                    <td>{this.props.category}</td>
                     <td>{this.props.title}</td>
                     <td>{this.props.date}</td>
                     <td>{this.props.where}</td>
