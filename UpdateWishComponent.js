@@ -14,11 +14,7 @@ export default class UpdateWishComponent extends React.Component {
         super();
         this.state = {
             from: field({ value: '', name: 'from', minLength: 2 }),
-<<<<<<< HEAD
-            wishing: field({ value: '', name: 'wishing', minLength: 2 }),
-=======
             wishing: field({ value: '', name: 'Wishing', minLength: 2 }),
->>>>>>> master
             imageURL: field({ value: '', name: 'imageURL', minLength: 10 })
         };
         this.onSubmit = this.onSubmit.bind(this);
@@ -114,11 +110,7 @@ export default class UpdateWishComponent extends React.Component {
                                                 name="wishing"
                                                 aria-label="wishing"
                                                 placeholder="Enter your wish"
-<<<<<<< HEAD
-                                                onChange={this.onInputChange}
-=======
                                                 onChange={this.onInputChange} 
->>>>>>> master
                                                 value={this.state.wishing.value}
                                             />
                                         </InputGroup>
