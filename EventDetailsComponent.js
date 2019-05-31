@@ -12,10 +12,15 @@ export default class EventDetailsComponent extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
+                <tr>
+                        <td>ID</td>
+                        <td>{this.props.ID}</td>
+                        
+                    </tr>
                     <tr>
                         <td>title</td>
                         <td>{this.props.title}</td>
-                        <td></td>
+                        
                     </tr>
                     <tr>
                         <td>When</td>

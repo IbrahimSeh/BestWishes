@@ -346,8 +346,11 @@ export default class EventsComponent extends React.Component {
                     (this.state.filtered && !this.state.inputId.value && this.state.searchedevents.length) ? <>
                         <div className="col-md">
                             <center>
-                                <div>
-                                    <Table style={{ textAlign: "center", marginTop: "30px" }} className="table tablebackground tableStyle" id="result">
+                                <Table>
+                                <center>
+                                    
+                                       
+                                    <Table style={{ textAlign: "center", marginTop: "30px" ,marginBottom:"0px",width:"1200px"}} className="table tablebackground tableStyle" id="result">
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
@@ -357,6 +360,15 @@ export default class EventsComponent extends React.Component {
                                                 <th scope="col">Where</th>
                                             </tr>
                                         </thead>
+                                </Table>
+                              
+                                    
+                                    </center>
+                                    
+                                    <center>
+                                <div className="scrollTable">
+                                    <Table style={{ textAlign: "center", marginTop: "30px", width:"1200px" }} className="table tablebackground tableStyle" id="result">
+                                        
                                         <tbody>
                                             {
                                                 this.state.searchedevents.map(({ ID, title, category, date, where }, i) =>
@@ -367,6 +379,13 @@ export default class EventsComponent extends React.Component {
                                     </Table>
                                 </div>
                             </center>
+                                
+
+                                </Table>
+                                
+                               
+                                </center>
+                               
                         </div>
 
                     </> : ''

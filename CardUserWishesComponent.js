@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Card, Col } from 'react-bootstrap';
 import {NavLink} from 'react-router-dom';
+import {Container,Row} from 'react-bootstrap'
 export default class CardUserWishesComponent extends React.Component {
     constructor() {
         super();
@@ -36,6 +37,8 @@ export default class CardUserWishesComponent extends React.Component {
     }
     render() {
         return <>
+      
+        
             <Col>
                 <Card style={{ width: '19rem', marginBottom: "15px" ,height:'22rem'}}>
                     <Card.Img variant="top" width="150px" height="150px" src={this.props.imageURL} />
@@ -52,6 +55,7 @@ export default class CardUserWishesComponent extends React.Component {
                     </Card.Body>
                 </Card>
             </Col>
+          
         </>;
     }
 }

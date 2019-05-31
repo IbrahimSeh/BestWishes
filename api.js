@@ -29,7 +29,190 @@ const events = [
         category: "Party",
         date: "2020-06-15",
         where: "sakhnin"
+    },
+    {
+        ID: "5",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "6",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "7",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "8",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    }, 
+    {
+        ID: "9",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "10",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "11",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "12",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "13",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "14",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "15",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "16",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "17",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "18",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "19",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "20",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "21",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "22",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "23",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "24",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "25",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "26",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "27",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "28",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "29",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
+    },
+    {
+        ID: "30",
+        title: "Ebraheem Grraduation",
+        category: "Party",
+        date: "2020-06-15",
+        where: "sakhnin"
     }
+
 ];
 const wishes = [
     {

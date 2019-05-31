@@ -69,6 +69,8 @@ export default class UpdateEventComponent extends React.Component {
                 <Form style={{ height: 250, margin: "80px 300px  0px 300px" }} onSubmit={this.onSubmit} >
                     <h1 className="font-weight-bold">Update Event <span style={{ color: "red" }}>{this.state.title.value}</span></h1>
                     <Form.Group>
+                    </Form.Group>
+                    <Form.Group>
                         <Form.Label className="font-weight-bold">Category</Form.Label>
                         <InputGroup className="mb-3">
                             <InputGroup.Prepend>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Image } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
 
 import './general.css';
 import validator, { field, checkUniqueUserName } from './validator';
@@ -120,6 +121,9 @@ export default class JoinComponent extends React.Component {
                     }}>
                         Join
                  </Button>
+                 <NavLink className="navbarClass" to="/Login" activeClassName="text-warning" >
+          <Button variant="outline-dark" style={{marginTop:"20px"}}>Login Here</Button>
+            </NavLink>
                 </Form>
             </div>
         </>;

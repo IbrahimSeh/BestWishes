@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Image } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
-
+import { NavLink } from 'react-router-dom';
 import WishContext from './WishContext';
 import './general.css';
 import * as api from "./api";
@@ -111,6 +111,10 @@ export default class LoginComponent extends React.Component {
           }}>
             Login
           </Button>
+          <NavLink className="navbarClass" to="/join" activeClassName="text-warning" >
+          <Button variant="outline-dark" style={{marginTop:"20px"}}>Join Here</Button>
+            </NavLink>
+         
         </Form>
       </div>
     </>;

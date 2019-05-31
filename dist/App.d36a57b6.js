@@ -56507,6 +56507,162 @@ var events = [{
   category: "Party",
   date: "2020-06-15",
   where: "sakhnin"
+}, {
+  ID: "5",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "6",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "7",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "8",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "9",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "10",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "11",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "12",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "13",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "14",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "15",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "16",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "17",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "18",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "19",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "20",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "21",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "22",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "23",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "24",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "25",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "26",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "27",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "28",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "29",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
+}, {
+  ID: "30",
+  title: "Ebraheem Grraduation",
+  category: "Party",
+  date: "2020-06-15",
+  where: "sakhnin"
 }];
 var wishes = [{
   "userID": "1",
@@ -56805,7 +56961,7 @@ function (_React$Component) {
         onClick: function onClick() {
           return _this.props.click(_this.props.ID);
         }
-      }, _react.default.createElement("td", null, this.props.ID), _react.default.createElement("td", null, this.props.catagory), _react.default.createElement("td", null, this.props.title), _react.default.createElement("td", null, this.props.date), _react.default.createElement("td", null, this.props.where)));
+      }, _react.default.createElement("td", null, this.props.ID), _react.default.createElement("td", null, this.props.category), _react.default.createElement("td", null, this.props.title), _react.default.createElement("td", null, this.props.date), _react.default.createElement("td", null, this.props.where)));
     }
   }]);
 
@@ -58424,8 +58580,70 @@ function (_React$Component) {
     value: function FilterEvents(event) {
       var RightSearch = [];
       this.state.events.forEach(function (e) {
-        if (e.catagory == category.value || ToDate.value && e.date <= ToDate.value || FromDate.value && e.date >= FromDate.value || where.value && e.where == where.value) {
-          RightSearch.push(e);
+        console.log("e.category = ".concat(e.category, ", e.where = ").concat(e.where, ", category=\"").concat(category.value, ", where=").concat(where.value));
+
+        if (category.value && ToDate.value && FromDate.value && where.value) {
+          if (category.value == e.category && ToDate.value >= e.date && FromDate.value <= e.date && e.where == where.value) {
+            RightSearch.push(e);
+          }
+        } else if (category.value && ToDate.value && FromDate.value) {
+          if (category.value == e.category && ToDate.value >= e.date && FromDate.value <= e.date) RightSearch.push(e);
+        } else if (category.value && ToDate.value && where.value) {
+          if (category.value == e.category && ToDate.value >= e.date && e.where == where.value) {
+            RightSearch.push(e);
+          }
+        } else if (category.value && FromDate.value && where.value) {
+          if (category.value == e.category && FromDate.value <= e.date && e.where == where.value) {
+            RightSearch.push(e);
+          }
+        } else if (FromDate.value && ToDate.value && where.value) {
+          if (ToDate.value >= e.date && FromDate.value <= e.date && e.where == where.value) {
+            RightSearch.push(e);
+          }
+        } else if (category.value && FromDate.value) {
+          if (category.value == e.category && FromDate.value <= e.date) {
+            RightSearch.push(e);
+          }
+        } else if (category.value && ToDate.value) {
+          if (category.value == e.category) {
+            if (ToDate.value >= e.date) {
+              RightSearch.push(e);
+            }
+          }
+        } else if (category.value && where.value) {
+          if (category.value == e.category) {
+            if (e.where == where.value) {
+              RightSearch.push(e);
+            }
+          }
+        } else if (FromDate.value && ToDate.value) {
+          if (ToDate.value >= e.date && FromDate.value <= e.date) {
+            RightSearch.push(e);
+          }
+        } else if (FromDate.value && where.value) {
+          if (FromDate.value <= e.date && e.where == where.value) {
+            RightSearch.push(e);
+          }
+        } else if (ToDate.value && where.value) {
+          if (ToDate.value >= e.date && e.where == where.value) {
+            RightSearch.push(e);
+          }
+        } else if (category.value) {
+          if (e.category == category.value) {
+            RightSearch.push(e);
+          }
+        } else if (FromDate.value) {
+          if (FromDate.value <= e.date) {
+            RightSearch.push(e);
+          }
+        } else if (ToDate.value) {
+          if (ToDate.value >= e.date) {
+            RightSearch.push(e);
+          }
+        } else if (where.value) {
+          if (e.where == where.value) {
+            RightSearch.push(e);
+          }
         }
       });
       localStorage.setItem('FilteredEvents', JSON.stringify(RightSearch));
@@ -58605,10 +58823,12 @@ function (_React$Component) {
           icon: _freeSolidSvgIcons.faSearch
         })))))), this.state.filtered && !this.state.inputId.value && this.state.searchedevents.length ? _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("div", {
           className: "col-md"
-        }, _react.default.createElement("center", null, _react.default.createElement("div", null, _react.default.createElement(_reactBootstrap.Table, {
+        }, _react.default.createElement("center", null, _react.default.createElement(_reactBootstrap.Table, null, _react.default.createElement("center", null, _react.default.createElement(_reactBootstrap.Table, {
           style: {
             textAlign: "center",
-            marginTop: "30px"
+            marginTop: "30px",
+            marginBottom: "0px",
+            width: "1200px"
           },
           className: "table tablebackground tableStyle",
           id: "result"
@@ -58616,29 +58836,39 @@ function (_React$Component) {
           scope: "col"
         }, "#"), _react.default.createElement("th", {
           scope: "col"
-        }, "Catagory"), _react.default.createElement("th", {
+        }, "category"), _react.default.createElement("th", {
           scope: "col"
         }, "Event Title"), _react.default.createElement("th", {
           scope: "col"
         }, "When"), _react.default.createElement("th", {
           scope: "col"
-        }, "Where"))), _react.default.createElement("tbody", null, this.state.searchedevents.map(function (_ref3, i) {
+        }, "Where"))))), _react.default.createElement("center", null, _react.default.createElement("div", {
+          className: "scrollTable"
+        }, _react.default.createElement(_reactBootstrap.Table, {
+          style: {
+            textAlign: "center",
+            marginTop: "30px",
+            width: "1200px"
+          },
+          className: "table tablebackground tableStyle",
+          id: "result"
+        }, _react.default.createElement("tbody", null, this.state.searchedevents.map(function (_ref3, i) {
           var ID = _ref3.ID,
               title = _ref3.title,
-              catagory = _ref3.catagory,
+              category = _ref3.category,
               date = _ref3.date,
               where = _ref3.where;
           return _react.default.createElement(_SearchedEventComponent.default, {
             key: i,
             ID: ID,
             title: title,
-            catagory: catagory,
+            category: category,
             date: date,
             where: where,
             click: _this3.rowClick,
             buttonClickFunc: _this3.buttonClick
           });
-        }))))))) : '', this.state.inputId.value && !this.state.filtered && this.getEvent(this.state.inputId.value) ? _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("div", {
+        }))))))))) : '', this.state.inputId.value && !this.state.filtered && this.getEvent(this.state.inputId.value) ? _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("div", {
           className: "col-md"
         }, _react.default.createElement("center", null, _react.default.createElement("div", null, _react.default.createElement(_reactBootstrap.Table, {
           style: {
@@ -58651,7 +58881,7 @@ function (_React$Component) {
           scope: "col"
         }, "#"), _react.default.createElement("th", {
           scope: "col"
-        }, "Catagory"), _react.default.createElement("th", {
+        }, "category"), _react.default.createElement("th", {
           scope: "col"
         }, "Event Title"), _react.default.createElement("th", {
           scope: "col"
@@ -58660,7 +58890,7 @@ function (_React$Component) {
         }, "Where"))), _react.default.createElement("tbody", null, _react.default.createElement(_SearchedEventComponent.default, {
           ID: this.getEvent(this.state.inputId.value).ID,
           title: this.getEvent(this.state.inputId.value).title,
-          catagory: this.getEvent(this.state.inputId.value).catagory,
+          category: this.getEvent(this.state.inputId.value).category,
           date: this.getEvent(this.state.inputId.value).date,
           click: this.rowClick,
           where: this.getEvent(this.state.inputId.value).where
@@ -58725,7 +58955,7 @@ function (_React$Component) {
       }, _react.default.createElement("thead", null, _react.default.createElement("tr", null, _react.default.createElement("th", {
         scope: "col",
         colSpan: "2"
-      }, "Event Info"))), _react.default.createElement("tbody", null, _react.default.createElement("tr", null, _react.default.createElement("td", null, "title"), _react.default.createElement("td", null, this.props.title), _react.default.createElement("td", null)), _react.default.createElement("tr", null, _react.default.createElement("td", null, "When"), _react.default.createElement("td", null, this.props.date)), _react.default.createElement("tr", null, _react.default.createElement("td", null, "Where"), _react.default.createElement("td", null, this.props.where)))));
+      }, "Event Info"))), _react.default.createElement("tbody", null, _react.default.createElement("tr", null, _react.default.createElement("td", null, "ID"), _react.default.createElement("td", null, this.props.ID)), _react.default.createElement("tr", null, _react.default.createElement("td", null, "title"), _react.default.createElement("td", null, this.props.title)), _react.default.createElement("tr", null, _react.default.createElement("td", null, "When"), _react.default.createElement("td", null, this.props.date)), _react.default.createElement("tr", null, _react.default.createElement("td", null, "Where"), _react.default.createElement("td", null, this.props.where)))));
     }
   }]);
 
@@ -58989,6 +59219,8 @@ var _react = _interopRequireDefault(require("react"));
 
 var _reactBootstrap = require("react-bootstrap");
 
+var _reactRouterDom = require("react-router-dom");
+
 require("./general.css");
 
 var _validator2 = _interopRequireWildcard(require("./validator"));
@@ -59224,7 +59456,16 @@ function (_React$Component) {
           fontSize: '18px',
           borderRadius: '20px'
         }, "border", "2px solid white")
-      }, "Join"))));
+      }, "Join"), _react.default.createElement(_reactRouterDom.NavLink, {
+        className: "navbarClass",
+        to: "/Login",
+        activeClassName: "text-warning"
+      }, _react.default.createElement(_reactBootstrap.Button, {
+        variant: "outline-dark",
+        style: {
+          marginTop: "20px"
+        }
+      }, "Login Here")))));
     }
   }]);
 
@@ -59232,7 +59473,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.default = JoinComponent;
-},{"react":"node_modules/react/index.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","./general.css":"general.css","./validator":"validator.js","./api":"api.js"}],"NavBarComponent.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./general.css":"general.css","./validator":"validator.js","./api":"api.js"}],"NavBarComponent.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -60004,6 +60245,8 @@ var _react = _interopRequireDefault(require("react"));
 
 var _reactBootstrap = require("react-bootstrap");
 
+var _reactRouterDom = require("react-router-dom");
+
 var _WishContext = _interopRequireDefault(require("./WishContext"));
 
 require("./general.css");
@@ -60222,7 +60465,16 @@ function (_React$Component) {
           fontSize: '18px',
           borderRadius: '20px'
         }, "border", "2px solid white")
-      }, "Login"))));
+      }, "Login"), _react.default.createElement(_reactRouterDom.NavLink, {
+        className: "navbarClass",
+        to: "/join",
+        activeClassName: "text-warning"
+      }, _react.default.createElement(_reactBootstrap.Button, {
+        variant: "outline-dark",
+        style: {
+          marginTop: "20px"
+        }
+      }, "Join Here")))));
     }
   }]);
 
@@ -60231,7 +60483,7 @@ function (_React$Component) {
 
 exports.default = LoginComponent;
 LoginComponent.contextType = _WishContext.default;
-},{"react":"node_modules/react/index.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","./WishContext":"WishContext.js","./general.css":"general.css","./api":"api.js","./validator":"validator.js"}],"UpdateEventComponent.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./WishContext":"WishContext.js","./general.css":"general.css","./api":"api.js","./validator":"validator.js"}],"UpdateEventComponent.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -60393,7 +60645,7 @@ function (_React$Component) {
         style: {
           color: "red"
         }
-      }, this.state.title.value)), _react.default.createElement(_reactBootstrap.Form.Group, null, _react.default.createElement(_reactBootstrap.Form.Label, {
+      }, this.state.title.value)), _react.default.createElement(_reactBootstrap.Form.Group, null), _react.default.createElement(_reactBootstrap.Form.Group, null, _react.default.createElement(_reactBootstrap.Form.Label, {
         className: "font-weight-bold"
       }, "Category"), _react.default.createElement(_reactBootstrap.InputGroup, {
         className: "mb-3"
@@ -61492,7 +61744,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52025" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64294" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
