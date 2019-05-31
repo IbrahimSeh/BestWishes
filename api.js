@@ -1,6 +1,9 @@
 import React from 'react';
 import axios from "axios";
 
+
+const URL = 'http://localhost:3080';
+
 const events = [
     {
         ID: "1",
@@ -180,7 +183,7 @@ const Users = [
                 ID: "1",
                 title: "Birthday",
                 category: "Birthday",
-                date: "2019-06-25",
+                date: "11-19-2018 19:00",
                 where: "sakhnin"
             },
             {
@@ -246,6 +249,7 @@ const getUserEventsByUserID = (userId) => {
 
 }
 
+
 const getEvents = () => {
     return new Promise(resolve => {
         setTimeout(() => {
@@ -276,12 +280,43 @@ const getWish = id => {
         }, 500);
     });
 }
-const getUsers = () => {
-    return JSON.parse(localStorage.getItem('users'));
+const myEvents = async (userId) => {
+    try {
+        const token = "userId:" + userId;
+        const result = await axios.get(URL + '/events', { headers: { Authorization: `Bearer ${token}` } });
+        const { data } = result;
+        return {id :data[0].id}
+      /*  if (data.status.code == 401) {
+            return { error: data.status.message };
+        } else {
+            return { id: data.id }
+        }*/
+    }
+    catch (error) {
+        console.dir(error);
+        return { error };
+    }
+}
+const login = async (email, password) => {
+    try {
+        const result = await axios.post(URL + '/login', {
+            email, password
+        });
+        const { data } = result;
+        if (data.status.code == 200) {
+            return { userId: data.userId };
+        } else {
+            return { error: data.error };
+        }
+    } catch (error) {
+        console.dir(error);
+        return { error };
+    }
 }
 
 export {
-    getUsers,
+    myEvents,
+    login,
     getWishes,
     getEvents,
     getEvent,
