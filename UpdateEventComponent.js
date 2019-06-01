@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Form, InputGroup, Button } from "react-bootstrap";
+import { Form, InputGroup, Button} from "react-bootstrap";
 import { faLocationArrow, faCalendar, faTag, faList } from "@fortawesome/free-solid-svg-icons";
 
 import validator, { field } from './validator';
@@ -15,22 +15,21 @@ export default class UpdateEventComponent extends React.Component {
         this.state = {
             category: field({ value: '', name: 'category' }),
             title: field({ value: '', name: 'title', minLength: 2 }),
-            date: field({ value: '', name: 'date' }),
+            startDate: field({ value: '', name: 'startDate' }),
             where: field({ value: '', name: 'where', minLength: 2 }),
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
     }
-    componentDidMount() {
-        api.getEvent(this.props.match.params.eventID)
-            .then(userEvent => localStorage.setItem("userEvent", JSON.stringify(userEvent)));
+    async  componentDidMount() {
+        const result = await api.getEvent(this.props.match.params.eventID, this.context.userID)
+        const { event } = result;
+        localStorage.setItem("userEvent", JSON.stringify(event));
         setTimeout(() => {
             const userEvent = JSON.parse(localStorage.getItem('userEvent'));
             const event = Object.assign({}, this.state);
             for (let key in event) {
-                if (key != "userEvent") {
                     event[key].value = userEvent[key];
-                }
             }
             this.setState({ ...event });
         }, 500);
@@ -126,15 +125,16 @@ export default class UpdateEventComponent extends React.Component {
                                     <FontAwesomeIcon icon={faCalendar} />
                                 </InputGroup.Text>
                             </InputGroup.Prepend>
+                           
                             <Form.Control
-                                name="date"
-                                type="date"
+                                name="startDate"
+                                type="Date"
                                 placeholder="Enter Event Date"
                                 onBlur={this.onInputChange}
-                                defaultValue={this.state.date.value}
+                                defaultValue={this.state.startDate.value}
                             />
                         </InputGroup>
-                        {this.state.date.errors.map((err, i) => (
+                        {this.state.startDate.errors.map((err, i) => (
                             <Form.Text key={i} className="text-danger">
                                 {err}
                             </Form.Text>

@@ -19,11 +19,10 @@ export default class ShowUserEvents extends React.Component {
     rowClick(idOfEvent) {
         this.props.history.push("/wishes/"+idOfEvent);
     }
-    componentDidMount() {
-        const { match } = this.props;
-        console.log(match);
-        api.getUserEventsByUserID(this.props.match.params.userID)
-            .then(userEvents => this.setState({ userEvents }));
+   async componentDidMount() {
+        const result = await api.getUserEventsByUserID(this.props.match.params.userID);
+        const {userEvents}=result;
+        this.setState({ userEvents });
     }
     render() {
         return <>
@@ -34,19 +33,18 @@ export default class ShowUserEvents extends React.Component {
                         <Table style={{ textAlign: "center", marginTop: "30px" }} className="table tablebackground tableStyle" id="result">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Category</th>
-                                    <th scope="col">Event Title</th>
-                                    <th scope="col">When</th>
-                                    <th scope="col">Where</th>
+                                    <th scope="col">category</th>
+                                    <th scope="col">event Title</th>
+                                    <th scope="col">startDate</th>
+                                    <th scope="col">endDate</th>
+                                    <th scope="col">location</th>
                                     <th>Options</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.state.userEvents.map(({ ID, title, category, date, where }, i) =>
-                                <MyEventsComponent key={i} ID={ID} title={title} category={category} date={date} where={where} func={this.rowClick} buttonClickFunc={this.buttonClick}/>
+                                {this.state.userEvents.map(({ id, title, category, startDate,endDate, location }, i) =>
+                                <MyEventsComponent key={i} ID={id} title={title} category={category} startDate={startDate} endDate={endDate} location={location} func={this.rowClick} buttonClickFunc={this.buttonClick}/>
                                 )}
-                               
                             </tbody>
                         </Table>
                     </div>

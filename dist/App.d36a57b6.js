@@ -30722,6 +30722,7 @@ var WishContext = _react.default.createContext({
   name: '',
   userID: 1,
   history: '',
+  register: function register(username, email, password) {},
   login: function login(email, userId) {},
   logout: function logout() {},
   getHistory: function getHistory(history) {}
@@ -57358,213 +57359,17 @@ module.exports = require('./lib/axios');
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getWish = exports.getUserWishesByUserID = exports.getUserEventsByUserID = exports.getEvent = exports.getEvents = exports.getWishes = exports.login = exports.myEvents = void 0;
+exports.getWish = exports.getUserWishesByUserID = exports.getUserEventsByUserID = exports.getEvent = exports.getEvents = exports.getWishes = exports.register = exports.login = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
-
-var _react = _interopRequireDefault(require("react"));
 
 var _axios = _interopRequireDefault(require("axios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var URL = 'http://localhost:3080';
-var events = [{
-  ID: "1",
-  title: "Ebraheem Birthday",
-  category: "Birthday",
-  date: "2019-06-25",
-  where: "sakhnin"
-}, {
-  ID: "2",
-  title: "Ebraheem New Born",
-  category: "New Born",
-  date: "2019-06-25",
-  where: "sakhnin"
-}, {
-  ID: "3",
-  title: "Ebraheem Wedding",
-  category: "Wedding",
-  date: "2026-06-25",
-  where: "sakhnin"
-}, {
-  ID: "4",
-  title: "Ebraheem Grraduation",
-  category: "Party",
-  date: "2020-06-15",
-  where: "sakhnin"
-}];
-var wishes = [{
-  "userID": "1",
-  "ID": "1",
-  "from": "Ameer",
-  "wishContent": "Happy birthday wish you all the best",
-  "imageURL": "https://blog.serenataflowers.com/pollennation/wp-content/uploads/2016/05/original-happy-birthday-messages-FT.gif",
-  "eventID": "1"
-}, {
-  "userID": "2",
-  "ID": "2",
-  "from": "sally",
-  "wishContent": "I wish that your birthday brings a new year as sweet, peppy and fiery as you my dear. Happy birthday.",
-  "imageURL": "https://blog.serenataflowers.com/pollennation/wp-content/uploads/2016/05/original-happy-birthday-messages-FT.gif",
-  "eventID": "1"
-}, {
-  "userID": "1",
-  "ID": "3",
-  "from": "Samah seh",
-  "wishContent": "I wish that your birthday brings a new year as sweet, peppy and fiery as you my dear. Happy birthday.",
-  "imageURL": "https://blog.serenataflowers.com/pollennation/wp-content/uploads/2016/05/original-happy-birthday-messages-FT.gif",
-  "eventID": "1"
-}, {
-  "userID": "2",
-  "ID": "4",
-  "from": "Ibraheem",
-  "wishContent": "I wish that your birthday brings a new year as sweet, peppy and fiery as you my dear. Happy birthday.",
-  "imageURL": "https://blog.serenataflowers.com/pollennation/wp-content/uploads/2016/05/original-happy-birthday-messages-FT.gif",
-  "eventID": "1"
-}, {
-  "userID": "2",
-  "ID": "5",
-  "from": "Arkan",
-  "wishContent": "I wish that your birthday brings a new year as sweet, peppy and fiery as you my dear. Happy birthday.",
-  "imageURL": "https://blog.serenataflowers.com/pollennation/wp-content/uploads/2016/05/original-happy-birthday-messages-FT.gif",
-  "eventID": "1"
-}, {
-  "userID": "1",
-  "ID": "6",
-  "from": "sally",
-  "wishContent": "I wish that your birthday brings a new year as sweet, peppy and fiery as you my dear. Happy birthday.",
-  "imageURL": "https://blog.serenataflowers.com/pollennation/wp-content/uploads/2016/05/original-happy-birthday-messages-FT.gif",
-  "eventID": "1"
-}, {
-  "userID": "1",
-  "ID": "7",
-  "from": "Ameer",
-  "wishContent": "Best wishes on this wonderful journey, as you build your new lives together.",
-  "imageURL": "https://images.greetingsisland.com/images/Cards/Events-Occasions/Wedding/previews/Wedding-Wishes.png?auto=format,compress&w=440",
-  "eventID": "3"
-}, {
-  "userID": "3",
-  "ID": "8",
-  "from": "sally",
-  "wishContent": "Wishing you joy, love and happiness on your wedding day and as you begin your new life together.",
-  "imageURL": "https://images.greetingsisland.com/images/Cards/Events-Occasions/Wedding/previews/Wedding-Wishes.png?auto=format,compress&w=440",
-  "eventID": "3"
-}, {
-  "userID": "1",
-  "ID": "9",
-  "from": "Ibraheem",
-  "wishContent": "May God grant you all of life's blessings and love's joys",
-  "imageURL": "https://images.greetingsisland.com/images/Cards/Events-Occasions/Wedding/previews/Wedding-Wishes.png?auto=format,compress&w=440",
-  "eventID": "3"
-}, {
-  "userID": "2",
-  "ID": "10",
-  "from": "Ameer",
-  "wishContent": "Welcome to the world little one, it is a place full of delights and wonders",
-  "imageURL": "https://abestwish.com/wp-content/uploads/2019/02/WhatsApp-Image-2019-01-31-at-1.27.15-PM.jpeg",
-  "eventID": "2"
-}, {
-  "userID": "2",
-  "ID": "11",
-  "from": "Sally",
-  "wishContent": "Wishing you much happiness as you welcome your new little bundle of joy into your family",
-  "imageURL": "https://abestwish.com/wp-content/uploads/2019/02/WhatsApp-Image-2019-01-31-at-1.27.15-PM.jpeg",
-  "eventID": "2"
-}, {
-  "userID": "3",
-  "ID": "12",
-  "from": "Sleman",
-  "wishContent": "Congratulations! Now is the time to enjoy your baby’s little feet and baby smell. It will not be there forever, and you should take as many pictures as possible. You will want to miss a single precious moment!",
-  "imageURL": "https://abestwish.com/wp-content/uploads/2019/02/WhatsApp-Image-2019-01-31-at-1.27.15-PM.jpeg",
-  "eventID": "2"
-}, {
-  "userID": "1",
-  "ID": "13",
-  "from": "Basel",
-  "wishContent": "Wishing you joy and happiness, and plently of wonderful moments together.",
-  "imageURL": "https://abestwish.com/wp-content/uploads/2019/02/WhatsApp-Image-2019-01-31-at-1.27.15-PM.jpeg",
-  "eventID": "2"
-}, {
-  "userID": "1",
-  "ID": "14",
-  "from": "Basel",
-  "wishContent": "Congratulations on your well-deserved success.",
-  "imageURL": "https://image.shutterstock.com/image-vector/congratulations-graduation-background-mortar-board-260nw-288861791.jpg",
-  "eventID": "4"
-}, {
-  "userID": "3",
-  "ID": "15",
-  "from": "sleman",
-  "wishContent": "I’m sure today will be only the first of many proud, successful moments for you",
-  "imageURL": "https://image.shutterstock.com/image-vector/congratulations-graduation-background-mortar-board-260nw-288861791.jpg",
-  "eventID": "4"
-}, {
-  "userID": "1",
-  "ID": "16",
-  "from": "Arkan",
-  "wishContent": "Congratulations today and best wishes for all your tomorrows.",
-  "imageURL": "https://image.shutterstock.com/image-vector/congratulations-graduation-background-mortar-board-260nw-288861791.jpg",
-  "eventID": "4"
-}, {
-  "userID": "1",
-  "ID": "17",
-  "from": "Mohamad",
-  "wishContent": "Can’t wait to see where life will take you next. Wherever it is, our prayers go with you!",
-  "imageURL": "https://image.shutterstock.com/image-vector/congratulations-graduation-background-mortar-board-260nw-288861791.jpg",
-  "eventID": "4"
-}];
-var Users = [{
-  userId: 1,
-  userName: 'sally@gmail.com',
-  name: 'sally',
-  password: '123',
-  events: [{
-    ID: "1",
-    title: "Birthday",
-    category: "Birthday",
-    date: "11-19-2018 19:00",
-    where: "sakhnin"
-  }, {
-    ID: "2",
-    title: "Birthday",
-    category: "Birthday",
-    date: "2019-06-25",
-    where: "sakhnin"
-  }, {
-    ID: "3",
-    title: "Birthday",
-    category: "Birthday",
-    date: "2019-06-25",
-    where: "sakhnin"
-  }]
-}, {
-  userId: 2,
-  userName: '2@gmail.com',
-  name: '2',
-  password: '123',
-  events: [{
-    ID: "1",
-    title: "Birthday",
-    category: "Birthday",
-    date: "2019-06-25",
-    where: "sakhnin"
-  }, {
-    ID: "2",
-    title: "Ebraheem Birthday",
-    category: "Birthday",
-    date: "2019-06-25",
-    where: "sakhnin"
-  }, {
-    ID: "3",
-    title: "Ebraheem Birthday",
-    category: "Birthday",
-    date: "2019-06-25",
-    where: "sakhnin"
-  }]
-}];
 
 var getUserWishesByUserID = function getUserWishesByUserID(userId) {
   return new Promise(function (resolve) {
@@ -57579,19 +57384,6 @@ var getUserWishesByUserID = function getUserWishesByUserID(userId) {
 
 exports.getUserWishesByUserID = getUserWishesByUserID;
 
-var getUserEventsByUserID = function getUserEventsByUserID(userId) {
-  return new Promise(function (resolve) {
-    setTimeout(function () {
-      var userEvents = Users.filter(function (user) {
-        return user.userId == userId;
-      })[0].events;
-      resolve(userEvents);
-    }, 500);
-  });
-};
-
-exports.getUserEventsByUserID = getUserEventsByUserID;
-
 var getEvents = function getEvents() {
   return new Promise(function (resolve) {
     setTimeout(function () {
@@ -57602,49 +57394,14 @@ var getEvents = function getEvents() {
 
 exports.getEvents = getEvents;
 
-var getWishes = function getWishes() {
-  return new Promise(function (resolve) {
-    setTimeout(function () {
-      resolve(wishes);
-    }, 500);
-  });
-};
-
-exports.getWishes = getWishes;
-
-var getEvent = function getEvent(id) {
-  return new Promise(function (resolve) {
-    setTimeout(function () {
-      var event = events.find(function (e) {
-        return e.ID === id;
-      });
-      resolve(event);
-    }, 500);
-  });
-};
-
-exports.getEvent = getEvent;
-
-var getWish = function getWish(id) {
-  return new Promise(function (resolve) {
-    setTimeout(function () {
-      var wish = wishes.find(function (w) {
-        return w.ID === id;
-      });
-      resolve(wish);
-    }, 500);
-  });
-};
-
-exports.getWish = getWish;
-
-var myEvents =
+var getWishes =
 /*#__PURE__*/
 function () {
   var _ref = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  _regenerator.default.mark(function _callee(userId) {
-    var token, result, data;
+  _regenerator.default.mark(function _callee(eventId, userId) {
+    var token, result, data, _wishes;
+
     return _regenerator.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -57661,8 +57418,139 @@ function () {
           case 4:
             result = _context.sent;
             data = result.data;
+            _wishes = data.filter(function (event) {
+              return event.userId == userId;
+            }).filter(function (event) {
+              return event.id == eventId;
+            })[0].wishes;
             return _context.abrupt("return", {
-              id: data[0].id
+              eventWishes: _wishes
+            });
+
+          case 10:
+            _context.prev = 10;
+            _context.t0 = _context["catch"](0);
+            console.dir(_context.t0);
+            return _context.abrupt("return", {
+              error: _context.t0
+            });
+
+          case 14:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[0, 10]]);
+  }));
+
+  return function getWishes(_x, _x2) {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+exports.getWishes = getWishes;
+
+var getEvent =
+/*#__PURE__*/
+function () {
+  var _ref2 = (0, _asyncToGenerator2.default)(
+  /*#__PURE__*/
+  _regenerator.default.mark(function _callee2(eventId, userId) {
+    var token, result, data;
+    return _regenerator.default.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.prev = 0;
+            token = "userId:" + userId;
+            _context2.next = 4;
+            return _axios.default.get(URL + '/events', {
+              headers: {
+                Authorization: "Bearer ".concat(token)
+              }
+            });
+
+          case 4:
+            result = _context2.sent;
+            data = result.data;
+            console.log(data.filter(function (event) {
+              return event.id == eventId;
+            }));
+            return _context2.abrupt("return", {
+              event: data.filter(function (event) {
+                return event.id == eventId;
+              })[0]
+              /*  if (data.status.code == 401) {
+                    return { error: data.status.message };
+                } else {
+                    return { id: data.id }
+                }*/
+
+            });
+
+          case 10:
+            _context2.prev = 10;
+            _context2.t0 = _context2["catch"](0);
+            console.dir(_context2.t0);
+            return _context2.abrupt("return", {
+              error: _context2.t0
+            });
+
+          case 14:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2, null, [[0, 10]]);
+  }));
+
+  return function getEvent(_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+exports.getEvent = getEvent;
+
+var getWish = function getWish(id) {
+  return new Promise(function (resolve) {
+    setTimeout(function () {
+      var wish = wishes.find(function (w) {
+        return w.ID === id;
+      });
+      resolve(wish);
+    }, 500);
+  });
+};
+
+exports.getWish = getWish;
+
+var getUserEventsByUserID =
+/*#__PURE__*/
+function () {
+  var _ref3 = (0, _asyncToGenerator2.default)(
+  /*#__PURE__*/
+  _regenerator.default.mark(function _callee3(userId) {
+    var token, result, data;
+    return _regenerator.default.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            token = "userId:" + userId;
+            _context3.next = 4;
+            return _axios.default.get(URL + '/events', {
+              headers: {
+                Authorization: "Bearer ".concat(token)
+              }
+            });
+
+          case 4:
+            result = _context3.sent;
+            data = result.data;
+            return _context3.abrupt("return", {
+              userEvents: data.filter(function (event) {
+                return event.userId == userId;
+              })
               /*  if (data.status.code == 401) {
                     return { error: data.status.message };
                 } else {
@@ -57672,91 +57560,155 @@ function () {
             });
 
           case 9:
-            _context.prev = 9;
-            _context.t0 = _context["catch"](0);
-            console.dir(_context.t0);
-            return _context.abrupt("return", {
-              error: _context.t0
+            _context3.prev = 9;
+            _context3.t0 = _context3["catch"](0);
+            console.dir(_context3.t0);
+            return _context3.abrupt("return", {
+              error: _context3.t0
             });
 
           case 13:
           case "end":
-            return _context.stop();
+            return _context3.stop();
         }
       }
-    }, _callee, null, [[0, 9]]);
+    }, _callee3, null, [[0, 9]]);
   }));
 
-  return function myEvents(_x) {
-    return _ref.apply(this, arguments);
+  return function getUserEventsByUserID(_x5) {
+    return _ref3.apply(this, arguments);
   };
 }();
 
-exports.myEvents = myEvents;
+exports.getUserEventsByUserID = getUserEventsByUserID;
 
 var login =
 /*#__PURE__*/
 function () {
-  var _ref2 = (0, _asyncToGenerator2.default)(
+  var _ref4 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  _regenerator.default.mark(function _callee2(email, password) {
+  _regenerator.default.mark(function _callee4(email, password) {
     var result, data;
-    return _regenerator.default.wrap(function _callee2$(_context2) {
+    return _regenerator.default.wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context2.prev = _context2.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
+            _context4.prev = 0;
+            _context4.next = 3;
             return _axios.default.post(URL + '/login', {
               email: email,
               password: password
             });
 
           case 3:
-            result = _context2.sent;
+            result = _context4.sent;
             data = result.data;
 
             if (!(data.status.code == 200)) {
-              _context2.next = 9;
+              _context4.next = 9;
               break;
             }
 
-            return _context2.abrupt("return", {
+            return _context4.abrupt("return", {
               userId: data.userId
             });
 
           case 9:
-            return _context2.abrupt("return", {
+            return _context4.abrupt("return", {
               error: data.error
             });
 
           case 10:
-            _context2.next = 16;
+            _context4.next = 16;
             break;
 
           case 12:
-            _context2.prev = 12;
-            _context2.t0 = _context2["catch"](0);
-            console.dir(_context2.t0);
-            return _context2.abrupt("return", {
-              error: _context2.t0
+            _context4.prev = 12;
+            _context4.t0 = _context4["catch"](0);
+            console.dir(_context4.t0);
+            return _context4.abrupt("return", {
+              error: _context4.t0
             });
 
           case 16:
           case "end":
-            return _context2.stop();
+            return _context4.stop();
         }
       }
-    }, _callee2, null, [[0, 12]]);
+    }, _callee4, null, [[0, 12]]);
   }));
 
-  return function login(_x2, _x3) {
-    return _ref2.apply(this, arguments);
+  return function login(_x6, _x7) {
+    return _ref4.apply(this, arguments);
   };
 }();
 
 exports.login = login;
-},{"@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js","react":"node_modules/react/index.js","axios":"node_modules/axios/index.js"}],"SearchedEventComponent.js":[function(require,module,exports) {
+
+var register =
+/*#__PURE__*/
+function () {
+  var _ref5 = (0, _asyncToGenerator2.default)(
+  /*#__PURE__*/
+  _regenerator.default.mark(function _callee5(username, email, password) {
+    var result, data;
+    return _regenerator.default.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.prev = 0;
+            _context5.next = 3;
+            return _axios.default.post(URL + '/register', {
+              username: username,
+              email: email,
+              password: password
+            });
+
+          case 3:
+            result = _context5.sent;
+            data = result.data;
+
+            if (!(data.status.code == 200)) {
+              _context5.next = 9;
+              break;
+            }
+
+            return _context5.abrupt("return", {
+              userId: data.userId
+            });
+
+          case 9:
+            return _context5.abrupt("return", {
+              error: data.error
+            });
+
+          case 10:
+            _context5.next = 16;
+            break;
+
+          case 12:
+            _context5.prev = 12;
+            _context5.t0 = _context5["catch"](0);
+            console.dir(_context5.t0);
+            return _context5.abrupt("return", {
+              error: _context5.t0
+            });
+
+          case 16:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, _callee5, null, [[0, 12]]);
+  }));
+
+  return function register(_x8, _x9, _x10) {
+    return _ref5.apply(this, arguments);
+  };
+}();
+
+exports.register = register;
+},{"@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js","axios":"node_modules/axios/index.js"}],"SearchedEventComponent.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -60002,8 +59954,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
-
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
 var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/objectSpread"));
@@ -60028,7 +59978,7 @@ require("./general.css");
 
 var _validator2 = _interopRequireWildcard(require("./validator"));
 
-var api = _interopRequireWildcard(require("./api"));
+var _WishContext = _interopRequireDefault(require("./WishContext"));
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
@@ -60059,46 +60009,14 @@ function (_React$Component) {
         value: '',
         name: 'UserPassword',
         minLength: 2
-      }),
-      Users: []
+      })
     };
-    _this.addUser = _this.addUser.bind((0, _assertThisInitialized2.default)(_this));
     _this.onSubmit = _this.onSubmit.bind((0, _assertThisInitialized2.default)(_this));
     _this.onInputChange = _this.onInputChange.bind((0, _assertThisInitialized2.default)(_this));
     return _this;
   }
 
   (0, _createClass2.default)(JoinComponent, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      setTimeout(function () {
-        var data = api.getUsers();
-
-        _this2.setState({
-          Users: data
-        }, function () {
-          return console.log(_this2.state);
-        });
-      }, 1000);
-    }
-  }, {
-    key: "addUser",
-    value: function addUser() {
-      if (localStorage.users) {
-        var oldUsers = JSON.parse(localStorage.getItem('users'));
-        var neWuser = {
-          userId: parseInt(this.state.Users[this.state.Users.length - 1].userId) + 1,
-          name: this.state.displayName.value,
-          password: this.state.UserPassword.value,
-          userName: this.state.Useremail.value
-        };
-        oldUsers.push(neWuser);
-        localStorage.setItem('users', JSON.stringify(oldUsers));
-      }
-    }
-  }, {
     key: "onInputChange",
     value: function onInputChange(_ref) {
       var _ref$target = _ref.target,
@@ -60114,39 +60032,24 @@ function (_React$Component) {
       e.preventDefault();
       var user = Object.assign({}, this.state);
 
-      var _checkUniqueUserName = (0, _validator2.checkUniqueUserName)(this.state.Users, this.state.Useremail.value),
-          userNameExists = _checkUniqueUserName.userNameExists,
-          UniqueUserNameError = _checkUniqueUserName.UniqueUserNameError;
-
       for (var key in user) {
-        if (key != "Users") {
-          var _user$key = user[key],
-              value = _user$key.value,
-              validations = _user$key.validations;
+        var _user$key = user[key],
+            value = _user$key.value,
+            validations = _user$key.validations;
 
-          var _validator = (0, _validator2.default)(value, key, validations),
-              valid = _validator.valid,
-              errors = _validator.errors;
+        var _validator = (0, _validator2.default)(value, key, validations),
+            valid = _validator.valid,
+            errors = _validator.errors;
 
-          if (!valid) {
-            user[key].valid = valid;
-            user[key].errors = errors;
-          }
-
-          if (userNameExists && key == "Useremail") {
-            user[key].errors = [].concat((0, _toConsumableArray2.default)(errors), (0, _toConsumableArray2.default)(UniqueUserNameError));
-          }
+        if (!valid) {
+          user[key].valid = valid;
+          user[key].errors = errors;
         }
       }
 
-      this.setState((0, _objectSpread2.default)({}, user)); //Send data to somewhere 
-      //...
-
-      if (this.state.displayName.errors.length == 0 && this.state.Useremail.errors.length == 0 && this.state.UserPassword.errors.length == 0) {
-        alert("User ".concat(this.state.displayName.value, " was addes successfully"));
-        this.addUser();
-        this.props.history.push("/");
-      }
+      this.setState((0, _objectSpread2.default)({}, user));
+      this.context.register(this.state.displayName.value, this.state.Useremail.value, this.state.UserPassword.value);
+      this.context.getHistory(this.props.history);
     }
   }, {
     key: "render",
@@ -60235,7 +60138,8 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.default = JoinComponent;
-},{"@babel/runtime/helpers/toConsumableArray":"node_modules/@babel/runtime/helpers/toConsumableArray.js","@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/helpers/objectSpread":"node_modules/@babel/runtime/helpers/objectSpread.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","./general.css":"general.css","./validator":"validator.js","./api":"api.js"}],"NavBarComponent.js":[function(require,module,exports) {
+JoinComponent.contextType = _WishContext.default;
+},{"@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/helpers/objectSpread":"node_modules/@babel/runtime/helpers/objectSpread.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","./general.css":"general.css","./validator":"validator.js","./WishContext":"WishContext.js"}],"NavBarComponent.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -61206,7 +61110,11 @@ exports.default = void 0;
 
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
 var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/objectSpread"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 
@@ -61258,9 +61166,9 @@ function (_React$Component) {
         name: 'title',
         minLength: 2
       }),
-      date: (0, _validator2.field)({
+      startDate: (0, _validator2.field)({
         value: '',
-        name: 'date'
+        name: 'startDate'
       }),
       where: (0, _validator2.field)({
         value: '',
@@ -61275,25 +61183,49 @@ function (_React$Component) {
 
   (0, _createClass2.default)(UpdateEventComponent, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
+    value: function () {
+      var _componentDidMount = (0, _asyncToGenerator2.default)(
+      /*#__PURE__*/
+      _regenerator.default.mark(function _callee() {
+        var _this2 = this;
 
-      api.getEvent(this.props.match.params.eventID).then(function (userEvent) {
-        return localStorage.setItem("userEvent", JSON.stringify(userEvent));
-      });
-      setTimeout(function () {
-        var userEvent = JSON.parse(localStorage.getItem('userEvent'));
-        var event = Object.assign({}, _this2.state);
+        var result, event;
+        return _regenerator.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return api.getEvent(this.props.match.params.eventID, this.context.userID);
 
-        for (var key in event) {
-          if (key != "userEvent") {
-            event[key].value = userEvent[key];
+              case 2:
+                result = _context.sent;
+                event = result.event;
+                localStorage.setItem("userEvent", JSON.stringify(event));
+                setTimeout(function () {
+                  var userEvent = JSON.parse(localStorage.getItem('userEvent'));
+                  var event = Object.assign({}, _this2.state);
+
+                  for (var key in event) {
+                    event[key].value = userEvent[key];
+                  }
+
+                  _this2.setState((0, _objectSpread2.default)({}, event));
+                }, 500);
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
           }
-        }
+        }, _callee, this);
+      }));
 
-        _this2.setState((0, _objectSpread2.default)({}, event));
-      }, 500);
-    }
+      function componentDidMount() {
+        return _componentDidMount.apply(this, arguments);
+      }
+
+      return componentDidMount;
+    }()
   }, {
     key: "onInputChange",
     value: function onInputChange(_ref) {
@@ -61402,12 +61334,12 @@ function (_React$Component) {
       }, _react.default.createElement(_reactBootstrap.InputGroup.Prepend, null, _react.default.createElement(_reactBootstrap.InputGroup.Text, null, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
         icon: _freeSolidSvgIcons.faCalendar
       }))), _react.default.createElement(_reactBootstrap.Form.Control, {
-        name: "date",
-        type: "date",
+        name: "startDate",
+        type: "Date",
         placeholder: "Enter Event Date",
         onBlur: this.onInputChange,
-        defaultValue: this.state.date.value
-      })), this.state.date.errors.map(function (err, i) {
+        defaultValue: this.state.startDate.value
+      })), this.state.startDate.errors.map(function (err, i) {
         return _react.default.createElement(_reactBootstrap.Form.Text, {
           key: i,
           className: "text-danger"
@@ -61444,7 +61376,7 @@ function (_React$Component) {
 
 exports.default = UpdateEventComponent;
 UpdateEventComponent.contextType = _WishContext.default;
-},{"@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/helpers/objectSpread":"node_modules/@babel/runtime/helpers/objectSpread.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","@fortawesome/react-fontawesome":"node_modules/@fortawesome/react-fontawesome/index.es.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","@fortawesome/free-solid-svg-icons":"node_modules/@fortawesome/free-solid-svg-icons/index.es.js","./validator":"validator.js","./WishContext":"WishContext.js","./api":"api.js"}],"MyEventsComponent.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/objectSpread":"node_modules/@babel/runtime/helpers/objectSpread.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","@fortawesome/react-fontawesome":"node_modules/@fortawesome/react-fontawesome/index.es.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","@fortawesome/free-solid-svg-icons":"node_modules/@fortawesome/free-solid-svg-icons/index.es.js","./validator":"validator.js","./WishContext":"WishContext.js","./api":"api.js"}],"MyEventsComponent.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -61487,7 +61419,7 @@ function (_React$Component) {
     value: function render() {
       var _this = this;
 
-      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("tr", null, _react.default.createElement("td", null, this.props.ID), _react.default.createElement("td", null, this.props.category), _react.default.createElement("td", null, this.props.title), _react.default.createElement("td", null, this.props.date), _react.default.createElement("td", null, this.props.where), _react.default.createElement("td", null, _react.default.createElement(_reactBootstrap.Button, {
+      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("tr", null, _react.default.createElement("td", null, this.props.category), _react.default.createElement("td", null, this.props.title), _react.default.createElement("td", null, this.props.startDate), _react.default.createElement("td", null, this.props.endDate), _react.default.createElement("td", null, this.props.location), _react.default.createElement("td", null, _react.default.createElement(_reactBootstrap.Button, {
         onClick: function onClick() {
           return _this.props.func(_this.props.ID);
         }
@@ -61637,6 +61569,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
@@ -61656,6 +61592,8 @@ var api = _interopRequireWildcard(require("./api"));
 var _CardUserWishesComponent = _interopRequireDefault(require("./CardUserWishesComponent"));
 
 var _reactBootstrap = require("react-bootstrap");
+
+var _WishContext = _interopRequireDefault(require("./WishContext"));
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
@@ -61679,31 +61617,53 @@ function (_React$Component) {
 
   (0, _createClass2.default)(MyWishes, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
+    value: function () {
+      var _componentDidMount = (0, _asyncToGenerator2.default)(
+      /*#__PURE__*/
+      _regenerator.default.mark(function _callee() {
+        var result, eventWishes;
+        return _regenerator.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return api.getWishes(this.props.match.params.userID, this.context.userID);
 
-      api.getUserWishesByUserID(this.props.match.params.userID).then(function (wishes) {
-        return _this2.setState({
-          wishes: wishes
-        });
-      });
-    }
+              case 2:
+                result = _context.sent;
+                eventWishes = result.eventWishes;
+                this.setState({
+                  wishes: eventWishes
+                });
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function componentDidMount() {
+        return _componentDidMount.apply(this, arguments);
+      }
+
+      return componentDidMount;
+    }()
   }, {
     key: "render",
     value: function render() {
       return _react.default.createElement(_reactBootstrap.Container, null, _react.default.createElement(_reactBootstrap.Row, null, this.state.wishes.map(function (_ref, i) {
-        var ID = _ref.ID,
-            eventID = _ref.eventID,
+        var id = _ref.id,
             from = _ref.from,
-            wishContent = _ref.wishContent,
-            imageURL = _ref.imageURL;
+            body = _ref.body,
+            image = _ref.image;
         return _react.default.createElement(_CardUserWishesComponent.default, {
           key: i,
-          id: ID,
-          eventID: eventID,
+          ID: id,
           from: from,
-          wishContent: wishContent,
-          imageURL: imageURL
+          wishContent: body,
+          imageURL: image
         });
       })));
     }
@@ -61712,7 +61672,8 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.default = MyWishes;
-},{"@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","./general.css":"general.css","./api":"api.js","./CardUserWishesComponent":"CardUserWishesComponent.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js"}],"RedirectIfAnonymous.js":[function(require,module,exports) {
+MyWishes.contextType = _WishContext.default;
+},{"@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","./general.css":"general.css","./api":"api.js","./CardUserWishesComponent":"CardUserWishesComponent.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","./WishContext":"WishContext.js"}],"RedirectIfAnonymous.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -61777,6 +61738,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
@@ -61831,21 +61796,43 @@ function (_React$Component) {
     }
   }, {
     key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
+    value: function () {
+      var _componentDidMount = (0, _asyncToGenerator2.default)(
+      /*#__PURE__*/
+      _regenerator.default.mark(function _callee() {
+        var result, userEvents;
+        return _regenerator.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return api.getUserEventsByUserID(this.props.match.params.userID);
 
-      var match = this.props.match;
-      console.log(match);
-      api.getUserEventsByUserID(this.props.match.params.userID).then(function (userEvents) {
-        return _this2.setState({
-          userEvents: userEvents
-        });
-      });
-    }
+              case 2:
+                result = _context.sent;
+                userEvents = result.userEvents;
+                this.setState({
+                  userEvents: userEvents
+                });
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function componentDidMount() {
+        return _componentDidMount.apply(this, arguments);
+      }
+
+      return componentDidMount;
+    }()
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("center", null, _react.default.createElement("div", {
         className: "container"
@@ -61869,29 +61856,31 @@ function (_React$Component) {
         id: "result"
       }, _react.default.createElement("thead", null, _react.default.createElement("tr", null, _react.default.createElement("th", {
         scope: "col"
-      }, "#"), _react.default.createElement("th", {
+      }, "category"), _react.default.createElement("th", {
         scope: "col"
-      }, "Category"), _react.default.createElement("th", {
+      }, "event Title"), _react.default.createElement("th", {
         scope: "col"
-      }, "Event Title"), _react.default.createElement("th", {
+      }, "startDate"), _react.default.createElement("th", {
         scope: "col"
-      }, "When"), _react.default.createElement("th", {
+      }, "endDate"), _react.default.createElement("th", {
         scope: "col"
-      }, "Where"), _react.default.createElement("th", null, "Options"))), _react.default.createElement("tbody", null, this.state.userEvents.map(function (_ref, i) {
-        var ID = _ref.ID,
+      }, "location"), _react.default.createElement("th", null, "Options"))), _react.default.createElement("tbody", null, this.state.userEvents.map(function (_ref, i) {
+        var id = _ref.id,
             title = _ref.title,
             category = _ref.category,
-            date = _ref.date,
-            where = _ref.where;
+            startDate = _ref.startDate,
+            endDate = _ref.endDate,
+            location = _ref.location;
         return _react.default.createElement(_MyEventsComponent.default, {
           key: i,
-          ID: ID,
+          ID: id,
           title: title,
           category: category,
-          date: date,
-          where: where,
-          func: _this3.rowClick,
-          buttonClickFunc: _this3.buttonClick
+          startDate: startDate,
+          endDate: endDate,
+          location: location,
+          func: _this2.rowClick,
+          buttonClickFunc: _this2.buttonClick
         });
       })))))));
     }
@@ -61900,7 +61889,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.default = ShowUserEvents;
-},{"@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","./MyEventsComponent":"MyEventsComponent.js","./api":"api.js"}],"localstorage.js":[function(require,module,exports) {
+},{"@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","./MyEventsComponent":"MyEventsComponent.js","./api":"api.js"}],"localstorage.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -62235,6 +62224,7 @@ function (_React$Component) {
     _this.login = _this.login.bind((0, _assertThisInitialized2.default)(_this));
     _this.logout = _this.logout.bind((0, _assertThisInitialized2.default)(_this));
     _this.getHistory = _this.getHistory.bind((0, _assertThisInitialized2.default)(_this));
+    _this.register = _this.register.bind((0, _assertThisInitialized2.default)(_this));
     var user;
     if (_localstorage.default.isLoggedIn()) user = _localstorage.default.getUser();else user = {
       name: '',
@@ -62242,73 +62232,27 @@ function (_React$Component) {
     };
     _this.state = (0, _objectSpread2.default)({}, user, {
       history: '',
+      register: _this.register,
       login: _this.login,
       logout: _this.logout,
       getHistory: _this.getHistory
     });
-
-    if (!localStorage.users) {
-      localStorage.users = JSON.stringify([{
-        "userId": "1",
-        "name": "Ameer",
-        "userName": "a@b.com",
-        "password": 123456
-      }, {
-        "userId": "2",
-        "name": "Saeed",
-        "userName": "saeednamih@gmail.com",
-        "password": 5678
-      }, {
-        "userId": "3",
-        "name": "Sally",
-        "userName": "sallydabbah@gmail.com",
-        "password": 9101112
-      }, {
-        "userId": "4",
-        "name": "Ameer",
-        "userName": "ameer.outlook.com",
-        "password": 12345
-      }]);
-    }
-
-    if (!localStorage.userWishes) {
-      localStorage.userWishes = JSON.stringify([{
-        "ID": "1",
-        "from": "Ameer",
-        "wishContent": "Happy birthday wish you all the best",
-        "imageURL": "https://blog.serenataflowers.com/pollennation/wp-content/uploads/2016/05/original-happy-birthday-messages-FT.gif",
-        "eventID": "1"
-      }, {
-        "ID": "2",
-        "from": "sally",
-        "wishContent": "I wish that your birthday brings a new year as sweet, peppy and fiery as you my dear. Happy birthday.",
-        "imageURL": "https://blog.serenataflowers.com/pollennation/wp-content/uploads/2016/05/original-happy-birthday-messages-FT.gif",
-        "eventID": "1"
-      }, {
-        "ID": "3",
-        "from": "Samah seh",
-        "wishContent": "I wish that your birthday brings a new year as sweet, peppy and fiery as you my dear. Happy birthday.",
-        "imageURL": "https://blog.serenataflowers.com/pollennation/wp-content/uploads/2016/05/original-happy-birthday-messages-FT.gif",
-        "eventID": "1"
-      }]);
-    }
-
     return _this;
   }
 
   (0, _createClass2.default)(App, [{
-    key: "login",
+    key: "register",
     value: function () {
-      var _login = (0, _asyncToGenerator2.default)(
+      var _register = (0, _asyncToGenerator2.default)(
       /*#__PURE__*/
-      _regenerator.default.mark(function _callee(email, password) {
-        var result, res, user;
+      _regenerator.default.mark(function _callee(username, email, password) {
+        var result, user;
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return api.login(email, password);
+                return api.register(username, email, password);
 
               case 2:
                 result = _context.sent;
@@ -62322,22 +62266,57 @@ function (_React$Component) {
                 return _context.abrupt("return");
 
               case 6:
-                _context.next = 8;
-                return api.myEvents(result.userId);
+                console.log(result.userId);
+                user = {
+                  name: username,
+                  userID: result.userId
+                };
+                this.setState(user);
 
-              case 8:
-                res = _context.sent;
+                _localstorage.default.login(user);
 
-                if (!res.error) {
-                  _context.next = 12;
+                this.state.history.push("/AlertDismissible");
+
+              case 11:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function register(_x, _x2, _x3) {
+        return _register.apply(this, arguments);
+      }
+
+      return register;
+    }()
+  }, {
+    key: "login",
+    value: function () {
+      var _login = (0, _asyncToGenerator2.default)(
+      /*#__PURE__*/
+      _regenerator.default.mark(function _callee2(email, password) {
+        var result, user;
+        return _regenerator.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return api.login(email, password);
+
+              case 2:
+                result = _context2.sent;
+
+                if (!result.error) {
+                  _context2.next = 6;
                   break;
                 }
 
-                alert(res.error);
-                return _context.abrupt("return");
+                alert(result.error);
+                return _context2.abrupt("return");
 
-              case 12:
-                console.log(res.id);
+              case 6:
                 console.log(result.userId);
                 user = {
                   name: 'amir',
@@ -62349,15 +62328,15 @@ function (_React$Component) {
 
                 this.state.history.push("/AlertDismissible");
 
-              case 18:
+              case 11:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, this);
+        }, _callee2, this);
       }));
 
-      function login(_x, _x2) {
+      function login(_x4, _x5) {
         return _login.apply(this, arguments);
       }
 
@@ -62462,7 +62441,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65200" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49689" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -158,7 +158,6 @@ export default class EventsComponent extends React.Component {
 
     getEvent(id) {
         const event = this.state.events.find(e => e.ID === id);
-        
         return event;
     }
     onInputChange({ target: { name, value } }) {

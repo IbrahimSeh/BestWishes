@@ -8,11 +8,11 @@ export default class MyEventsComponent extends React.Component {
             <>
 
                 <tr>
-                    <td>{this.props.ID}</td>
                     <td>{this.props.category}</td>
                     <td>{this.props.title}</td>
-                    <td>{this.props.date}</td>
-                    <td>{this.props.where}</td>
+                    <td>{this.props.startDate}</td>
+                    <td>{this.props.endDate}</td>
+                    <td>{this.props.location}</td>
                     <td>
                         <Button  onClick={()=>this.props.func(this.props.ID)}>Show</Button>
                         <NavLink className="navbarClass btn text-primary" to={"/UpdateEventComponent/"+this.props.ID} activeClassName="text-warning">
