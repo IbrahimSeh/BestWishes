@@ -60577,8 +60577,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
-
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
 var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/objectSpread"));
@@ -60609,11 +60607,11 @@ var _validator2 = _interopRequireWildcard(require("./validator"));
 
 var _WishContext = _interopRequireDefault(require("./WishContext"));
 
-var api = _interopRequireWildcard(require("./api"));
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+CreateNewEvent;
 
 var CreateNewEvent =
 /*#__PURE__*/
@@ -60635,17 +60633,27 @@ function (_React$Component) {
         name: 'title',
         minLength: 2
       }),
-      date: (0, _validator2.field)({
+      startDate: (0, _validator2.field)({
         value: '',
-        name: 'date'
+        name: 'startDate'
       }),
-      where: (0, _validator2.field)({
+      endDate: (0, _validator2.field)({
         value: '',
-        name: 'where',
+        name: 'endDate'
+      }),
+      timeStartDate: (0, _validator2.field)({
+        value: '',
+        name: 'timeStartDate'
+      }),
+      timeEndDate: (0, _validator2.field)({
+        value: '',
+        name: 'timeEndDate'
+      }),
+      location: (0, _validator2.field)({
+        value: '',
+        name: 'location',
         minLength: 2
-      }),
-      userEvents: [],
-      events: []
+      })
     };
     _this.onSubmit = _this.onSubmit.bind((0, _assertThisInitialized2.default)(_this));
     _this.onInputChange = _this.onInputChange.bind((0, _assertThisInitialized2.default)(_this));
@@ -60653,22 +60661,6 @@ function (_React$Component) {
   }
 
   (0, _createClass2.default)(CreateNewEvent, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      api.getEvents().then(function (events) {
-        return _this2.setState({
-          events: events
-        });
-      });
-      api.getUserEventsByUserID(this.context.userID).then(function (userEvents) {
-        return _this2.setState({
-          userEvents: userEvents
-        });
-      });
-    }
-  }, {
     key: "onInputChange",
     value: function onInputChange(_ref) {
       var _ref$target = _ref.target,
@@ -60686,71 +60678,69 @@ function (_React$Component) {
       var event = Object.assign({}, this.state);
 
       for (var key in event) {
-        if (key != "userEvents" && key != "events") {
-          var _event$key = event[key],
-              value = _event$key.value,
-              validations = _event$key.validations;
+        var _event$key = event[key],
+            value = _event$key.value,
+            validations = _event$key.validations;
 
-          var _validator = (0, _validator2.default)(value, key, validations),
-              valid = _validator.valid,
-              errors = _validator.errors;
+        var _validator = (0, _validator2.default)(value, key, validations),
+            valid = _validator.valid,
+            errors = _validator.errors;
 
-          if (!valid) {
-            event[key].valid = valid;
-            event[key].errors = errors;
-          }
+        if (!valid) {
+          event[key].valid = valid;
+          event[key].errors = errors;
         }
       }
 
       this.setState((0, _objectSpread2.default)({}, event));
 
-      if (this.state.category.errors.length == 0 && this.state.title.errors.length == 0 && this.state.date.errors.length == 0 && this.state.where.errors.length == 0) {
-        var myNewEvent = {
-          userID: this.context.userID,
-          ID: parseInt(this.state.events[this.state.events.length - 1].ID) + 1,
-          title: this.state.title.value,
-          category: this.state.category.value,
-          date: this.state.date.value,
-          where: this.state.where.value
+      if (this.state.category.errors.length == 0 && this.state.title.errors.length == 0 && this.state.startDate.errors.length == 0 && this.state.endDate.errors.length == 0 && this.state.timeStartDate.errors.length == 0 && this.state.timeEndDate.errors.length == 0 && this.state.location.errors.length == 0) {
+        alert("successfully updated");
+        var category = event.category,
+            title = event.title,
+            startDate = event.startDate,
+            endDate = event.endDate,
+            location = event.location;
+        var newstartDate = startDate.value.split('-').reverse().join('-') + ' ' + event.timeStartDate.value;
+        var newendDate = endDate.value.split('-').reverse().join('-') + ' ' + event.timeEndDate.value; // console.log("newstartDate: " + newstartDate)
+        // console.log("newendDate: " + newendDate)
+
+        var month = newstartDate.substring(3, 5),
+            day = newstartDate.substring(0, 2),
+            year = newstartDate.substring(6, 10); // console.log(day, month, year)
+
+        var newStartDate = month + '-' + day + '-' + year;
+        month = newendDate.substring(3, 5), day = newendDate.substring(0, 2), year = newendDate.substring(6, 10);
+        var newEndDate = month + '-' + day + '-' + year;
+        newStartDate = newStartDate + ' ' + event.timeStartDate.value; // console.log("newStartDate: " + newStartDate)
+
+        newEndDate = newEndDate + ' ' + event.timeEndDate.value;
+        var updatedEvent = {
+          category: category.value,
+          title: title.value,
+          startDate: newStartDate,
+          endDate: newEndDate,
+          location: location.value
         };
-        alert("added successfully");
-        this.setState(function (prevState) {
-          return {
-            events: [].concat((0, _toConsumableArray2.default)(prevState.events), [myNewEvent])
-          };
-        }, function () {
-          this.state.events.map(function (item) {
-            console.log(item.ID);
-          });
-        });
-        this.setState(function (prevState) {
-          return {
-            userEvents: [].concat((0, _toConsumableArray2.default)(prevState.userEvents), [myNewEvent])
-          };
-        }, function () {
-          this.state.userEvents.map(function (item) {
-            console.log(item.ID);
-          });
-        });
+        console.log(updatedEvent);
       }
     }
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("div", {
-        className: "container"
-      }, _react.default.createElement(_reactBootstrap.Form, {
+      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(_reactBootstrap.Container, null, _react.default.createElement(_reactBootstrap.Form, {
         style: {
           height: 250,
           margin: "80px 300px  0px 300px"
         },
         onSubmit: this.onSubmit
       }, _react.default.createElement("h1", {
+        className: "font-weight-bold"
+      }, _react.default.createElement("span", {
         style: {
           color: "red"
-        },
-        className: "font-weight-bold"
-      }, "Create New Event"), _react.default.createElement(_reactBootstrap.Form.Group, null, _react.default.createElement(_reactBootstrap.Form.Label, {
+        }
+      }, "Create New Event")), _react.default.createElement(_reactBootstrap.Form.Group, null, _react.default.createElement(_reactBootstrap.Form.Label, {
         className: "font-weight-bold"
       }, "Category"), _react.default.createElement(_reactBootstrap.InputGroup, {
         className: "mb-3"
@@ -60760,7 +60750,8 @@ function (_React$Component) {
         as: "select",
         id: "category",
         name: "category",
-        onBlur: this.onInputChange
+        value: this.state.category.value,
+        onChange: this.onInputChange
       }, _react.default.createElement("option", {
         value: ""
       }, "Choose..."), _react.default.createElement("option", {
@@ -60786,41 +60777,109 @@ function (_React$Component) {
         id: "title",
         name: "title",
         placeholder: "Enter Title Event",
-        onBlur: this.onInputChange
+        onBlur: this.onInputChange,
+        defaultValue: this.state.title.value
       })), this.state.title.errors.map(function (err, i) {
         return _react.default.createElement(_reactBootstrap.Form.Text, {
           key: i,
           className: "text-danger"
         }, err);
-      })), _react.default.createElement(_reactBootstrap.Form.Group, null, _react.default.createElement(_reactBootstrap.Form.Label, {
+      })), _react.default.createElement(_reactBootstrap.Row, null, _react.default.createElement(_reactBootstrap.Col, null, _react.default.createElement(_reactBootstrap.Form.Group, {
+        style: {
+          width: "270px",
+          marginRight: "60px"
+        }
+      }, _react.default.createElement(_reactBootstrap.Form.Label, {
         className: "font-weight-bold"
-      }, "At"), _react.default.createElement(_reactBootstrap.InputGroup, {
+      }, "Start Date"), _react.default.createElement(_reactBootstrap.InputGroup, {
         className: "mb-3"
       }, _react.default.createElement(_reactBootstrap.InputGroup.Prepend, null, _react.default.createElement(_reactBootstrap.InputGroup.Text, null, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
         icon: _freeSolidSvgIcons.faCalendar
       }))), _react.default.createElement(_reactBootstrap.Form.Control, {
-        id: "date",
-        name: "date",
-        type: "Date",
-        placeholder: "Enter Title Date",
-        onBlur: this.onInputChange
-      })), this.state.date.errors.map(function (err, i) {
+        name: "startDate",
+        type: "date",
+        placeholder: "Enter Event Date",
+        onBlur: this.onInputChange,
+        defaultValue: this.state.startDate.value
+      })), this.state.startDate.errors.map(function (err, i) {
         return _react.default.createElement(_reactBootstrap.Form.Text, {
           key: i,
           className: "text-danger"
         }, err);
-      })), _react.default.createElement(_reactBootstrap.Form.Group, null, _react.default.createElement(_reactBootstrap.Form.Label, {
+      }))), _react.default.createElement(_reactBootstrap.Col, null, _react.default.createElement(_reactBootstrap.Form.Group, {
+        style: {
+          width: "150px"
+        }
+      }, _react.default.createElement(_reactBootstrap.Form.Label, {
         className: "font-weight-bold"
-      }, "Where"), _react.default.createElement(_reactBootstrap.InputGroup, {
+      }, "Start Time"), _react.default.createElement(_reactBootstrap.InputGroup, {
+        className: "mb-3"
+      }, _react.default.createElement(_reactBootstrap.InputGroup.Prepend, null, _react.default.createElement(_reactBootstrap.InputGroup.Text, null, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
+        icon: _freeSolidSvgIcons.faClock
+      }))), _react.default.createElement(_reactBootstrap.Form.Control, {
+        name: "timeStartDate",
+        type: "time",
+        onBlur: this.onInputChange,
+        defaultValue: this.state.timeStartDate.value
+      })), this.state.timeStartDate.errors.map(function (err, i) {
+        return _react.default.createElement(_reactBootstrap.Form.Text, {
+          key: i,
+          className: "text-danger"
+        }, err);
+      })))), _react.default.createElement(_reactBootstrap.Row, null, _react.default.createElement(_reactBootstrap.Col, null, _react.default.createElement(_reactBootstrap.Form.Group, {
+        style: {
+          width: "270px",
+          marginRight: "60px"
+        }
+      }, _react.default.createElement(_reactBootstrap.Form.Label, {
+        className: "font-weight-bold"
+      }, "End Date"), _react.default.createElement(_reactBootstrap.InputGroup, {
+        className: "mb-3"
+      }, _react.default.createElement(_reactBootstrap.InputGroup.Prepend, null, _react.default.createElement(_reactBootstrap.InputGroup.Text, null, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
+        icon: _freeSolidSvgIcons.faCalendar
+      }))), _react.default.createElement(_reactBootstrap.Form.Control, {
+        name: "endDate",
+        type: "date",
+        onBlur: this.onInputChange,
+        defaultValue: this.state.endDate.value
+      })), this.state.endDate.errors.map(function (err, i) {
+        return _react.default.createElement(_reactBootstrap.Form.Text, {
+          key: i,
+          className: "text-danger"
+        }, err);
+      }))), _react.default.createElement(_reactBootstrap.Col, null, _react.default.createElement(_reactBootstrap.Form.Group, {
+        style: {
+          width: "150px"
+        }
+      }, _react.default.createElement(_reactBootstrap.Form.Label, {
+        className: "font-weight-bold"
+      }, "End Time"), _react.default.createElement(_reactBootstrap.InputGroup, {
+        className: "mb-3"
+      }, _react.default.createElement(_reactBootstrap.InputGroup.Prepend, null, _react.default.createElement(_reactBootstrap.InputGroup.Text, null, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
+        icon: _freeSolidSvgIcons.faClock
+      }))), _react.default.createElement(_reactBootstrap.Form.Control, {
+        name: "timeEndDate",
+        type: "time",
+        onBlur: this.onInputChange,
+        defaultValue: this.state.timeEndDate.value
+      })), this.state.timeEndDate.errors.map(function (err, i) {
+        return _react.default.createElement(_reactBootstrap.Form.Text, {
+          key: i,
+          className: "text-danger"
+        }, err);
+      })))), _react.default.createElement(_reactBootstrap.Form.Group, null, _react.default.createElement(_reactBootstrap.Form.Label, {
+        className: "font-weight-bold"
+      }, "Location"), _react.default.createElement(_reactBootstrap.InputGroup, {
         className: "mb-3"
       }, _react.default.createElement(_reactBootstrap.InputGroup.Prepend, null, _react.default.createElement(_reactBootstrap.InputGroup.Text, null, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
         icon: _freeSolidSvgIcons.faLocationArrow
       }))), _react.default.createElement(_reactBootstrap.Form.Control, {
-        id: "where",
-        name: "where",
-        placeholder: "Enter Event Position",
-        onBlur: this.onInputChange
-      })), this.state.where.errors.map(function (err, i) {
+        id: "location",
+        name: "location",
+        placeholder: "Enter Event location",
+        onBlur: this.onInputChange,
+        defaultValue: this.state.location.value
+      })), this.state.location.errors.map(function (err, i) {
         return _react.default.createElement(_reactBootstrap.Form.Text, {
           key: i,
           className: "text-danger"
@@ -60851,7 +60910,7 @@ function (_React$Component) {
 
 exports.default = CreateNewEvent;
 CreateNewEvent.contextType = _WishContext.default;
-},{"@babel/runtime/helpers/toConsumableArray":"node_modules/@babel/runtime/helpers/toConsumableArray.js","@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/helpers/objectSpread":"node_modules/@babel/runtime/helpers/objectSpread.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","@fortawesome/react-fontawesome":"node_modules/@fortawesome/react-fontawesome/index.es.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","@fortawesome/free-solid-svg-icons":"node_modules/@fortawesome/free-solid-svg-icons/index.es.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./validator":"validator.js","./WishContext":"WishContext.js","./api":"api.js"}],"AlertDismissible.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/helpers/objectSpread":"node_modules/@babel/runtime/helpers/objectSpread.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","@fortawesome/react-fontawesome":"node_modules/@fortawesome/react-fontawesome/index.es.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","@fortawesome/free-solid-svg-icons":"node_modules/@fortawesome/free-solid-svg-icons/index.es.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./validator":"validator.js","./WishContext":"WishContext.js"}],"AlertDismissible.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -61100,7 +61159,59 @@ function (_React$Component) {
 
 exports.default = LoginComponent;
 LoginComponent.contextType = _WishContext.default;
-},{"@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/helpers/objectSpread":"node_modules/@babel/runtime/helpers/objectSpread.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","./WishContext":"WishContext.js","./general.css":"general.css","./validator":"validator.js","./AlertDismissible":"AlertDismissible.js"}],"UpdateEventComponent.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/helpers/objectSpread":"node_modules/@babel/runtime/helpers/objectSpread.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","./WishContext":"WishContext.js","./general.css":"general.css","./validator":"validator.js","./AlertDismissible":"AlertDismissible.js"}],"node_modules/@babel/runtime/helpers/arrayWithHoles.js":[function(require,module,exports) {
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+module.exports = _arrayWithHoles;
+},{}],"node_modules/@babel/runtime/helpers/iterableToArrayLimit.js":[function(require,module,exports) {
+function _iterableToArrayLimit(arr, i) {
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+
+module.exports = _iterableToArrayLimit;
+},{}],"node_modules/@babel/runtime/helpers/nonIterableRest.js":[function(require,module,exports) {
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance");
+}
+
+module.exports = _nonIterableRest;
+},{}],"node_modules/@babel/runtime/helpers/slicedToArray.js":[function(require,module,exports) {
+var arrayWithHoles = require("./arrayWithHoles");
+
+var iterableToArrayLimit = require("./iterableToArrayLimit");
+
+var nonIterableRest = require("./nonIterableRest");
+
+function _slicedToArray(arr, i) {
+  return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || nonIterableRest();
+}
+
+module.exports = _slicedToArray;
+},{"./arrayWithHoles":"node_modules/@babel/runtime/helpers/arrayWithHoles.js","./iterableToArrayLimit":"node_modules/@babel/runtime/helpers/iterableToArrayLimit.js","./nonIterableRest":"node_modules/@babel/runtime/helpers/nonIterableRest.js"}],"UpdateEventComponent.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -61113,6 +61224,8 @@ var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/de
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
 var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/objectSpread"));
+
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
@@ -61170,9 +61283,21 @@ function (_React$Component) {
         value: '',
         name: 'startDate'
       }),
-      where: (0, _validator2.field)({
+      endDate: (0, _validator2.field)({
         value: '',
-        name: 'where',
+        name: 'endDate'
+      }),
+      timeStartDate: (0, _validator2.field)({
+        value: '',
+        name: 'timeStartDate'
+      }),
+      timeEndDate: (0, _validator2.field)({
+        value: '',
+        name: 'timeEndDate'
+      }),
+      location: (0, _validator2.field)({
+        value: '',
+        name: 'location',
         minLength: 2
       })
     };
@@ -61203,11 +61328,39 @@ function (_React$Component) {
                 localStorage.setItem("userEvent", JSON.stringify(event));
                 setTimeout(function () {
                   var userEvent = JSON.parse(localStorage.getItem('userEvent'));
+                  var startDate = userEvent.startDate,
+                      endDate = userEvent.endDate;
+
+                  var _endDate$split$revers = endDate.split(' ').reverse(),
+                      _endDate$split$revers2 = (0, _slicedToArray2.default)(_endDate$split$revers, 2),
+                      timeEndDate = _endDate$split$revers2[0],
+                      EndDate = _endDate$split$revers2[1];
+
+                  var _startDate$split$reve = startDate.split(' ').reverse(),
+                      _startDate$split$reve2 = (0, _slicedToArray2.default)(_startDate$split$reve, 2),
+                      timeStartDate = _startDate$split$reve2[0],
+                      StartDate = _startDate$split$reve2[1];
+
+                  startDate = StartDate.split('-').reverse().join('-');
+                  endDate = EndDate.split('-').reverse().join('-');
+                  console.log("startDate: " + startDate);
+                  console.log("endDate: " + endDate);
+                  var month = startDate.substring(8, 10),
+                      day = startDate.substring(5, 7),
+                      year = startDate.substring(0, 4);
+                  var newStartDate = year + '-' + month + '-' + day;
+                  month = endDate.substring(8, 10), day = endDate.substring(5, 7), year = endDate.substring(0, 4);
+                  var newEndDate = year + '-' + month + '-' + day;
                   var event = Object.assign({}, _this2.state);
 
                   for (var key in event) {
                     event[key].value = userEvent[key];
                   }
+
+                  event.startDate.value = newStartDate;
+                  event.endDate.value = newEndDate;
+                  event.timeStartDate.value = timeStartDate;
+                  event.timeEndDate.value = timeEndDate;
 
                   _this2.setState((0, _objectSpread2.default)({}, event));
                 }, 500);
@@ -61244,34 +61397,57 @@ function (_React$Component) {
       var event = Object.assign({}, this.state);
 
       for (var key in event) {
-        if (key != "userEvent") {
-          var _event$key = event[key],
-              value = _event$key.value,
-              validations = _event$key.validations;
+        var _event$key = event[key],
+            value = _event$key.value,
+            validations = _event$key.validations;
 
-          var _validator = (0, _validator2.default)(value, key, validations),
-              valid = _validator.valid,
-              errors = _validator.errors;
+        var _validator = (0, _validator2.default)(value, key, validations),
+            valid = _validator.valid,
+            errors = _validator.errors;
 
-          if (!valid) {
-            event[key].valid = valid;
-            event[key].errors = errors;
-          }
+        if (!valid) {
+          event[key].valid = valid;
+          event[key].errors = errors;
         }
       }
 
       this.setState((0, _objectSpread2.default)({}, event));
 
-      if (this.state.category.errors.length == 0 && this.state.title.errors.length == 0 && this.state.date.errors.length == 0 && this.state.where.errors.length == 0) {
+      if (this.state.category.errors.length == 0 && this.state.title.errors.length == 0 && this.state.startDate.errors.length == 0 && this.state.endDate.errors.length == 0 && this.state.timeStartDate.errors.length == 0 && this.state.timeEndDate.errors.length == 0 && this.state.location.errors.length == 0) {
         alert("successfully updated");
+        var category = event.category,
+            title = event.title,
+            startDate = event.startDate,
+            endDate = event.endDate,
+            location = event.location;
+        var newstartDate = startDate.value.split('-').reverse().join('-') + ' ' + event.timeStartDate.value;
+        var newendDate = endDate.value.split('-').reverse().join('-') + ' ' + event.timeEndDate.value; // console.log("newstartDate: " + newstartDate)
+        // console.log("newendDate: " + newendDate)
+
+        var month = newstartDate.substring(3, 5),
+            day = newstartDate.substring(0, 2),
+            year = newstartDate.substring(6, 10); // console.log(day, month, year)
+
+        var newStartDate = month + '-' + day + '-' + year;
+        month = newendDate.substring(3, 5), day = newendDate.substring(0, 2), year = newendDate.substring(6, 10);
+        var newEndDate = month + '-' + day + '-' + year;
+        newStartDate = newStartDate + ' ' + event.timeStartDate.value; // console.log("newStartDate: " + newStartDate)
+
+        newEndDate = newEndDate + ' ' + event.timeEndDate.value;
+        var updatedEvent = {
+          category: category.value,
+          title: title.value,
+          startDate: newStartDate,
+          endDate: newEndDate,
+          location: location.value
+        };
+        console.log(updatedEvent);
       }
     }
   }, {
     key: "render",
     value: function render() {
-      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("div", {
-        className: "container"
-      }, _react.default.createElement(_reactBootstrap.Form, {
+      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(_reactBootstrap.Container, null, _react.default.createElement(_reactBootstrap.Form, {
         style: {
           height: 250,
           margin: "80px 300px  0px 300px"
@@ -61327,15 +61503,20 @@ function (_React$Component) {
           key: i,
           className: "text-danger"
         }, err);
-      })), _react.default.createElement(_reactBootstrap.Form.Group, null, _react.default.createElement(_reactBootstrap.Form.Label, {
+      })), _react.default.createElement(_reactBootstrap.Row, null, _react.default.createElement(_reactBootstrap.Col, null, _react.default.createElement(_reactBootstrap.Form.Group, {
+        style: {
+          width: "270px",
+          marginRight: "60px"
+        }
+      }, _react.default.createElement(_reactBootstrap.Form.Label, {
         className: "font-weight-bold"
-      }, "Date"), _react.default.createElement(_reactBootstrap.InputGroup, {
+      }, "Start Date"), _react.default.createElement(_reactBootstrap.InputGroup, {
         className: "mb-3"
       }, _react.default.createElement(_reactBootstrap.InputGroup.Prepend, null, _react.default.createElement(_reactBootstrap.InputGroup.Text, null, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
         icon: _freeSolidSvgIcons.faCalendar
       }))), _react.default.createElement(_reactBootstrap.Form.Control, {
         name: "startDate",
-        type: "Date",
+        type: "date",
         placeholder: "Enter Event Date",
         onBlur: this.onInputChange,
         defaultValue: this.state.startDate.value
@@ -61344,19 +61525,80 @@ function (_React$Component) {
           key: i,
           className: "text-danger"
         }, err);
-      })), _react.default.createElement(_reactBootstrap.Form.Group, null, _react.default.createElement(_reactBootstrap.Form.Label, {
+      }))), _react.default.createElement(_reactBootstrap.Col, null, _react.default.createElement(_reactBootstrap.Form.Group, {
+        style: {
+          width: "150px"
+        }
+      }, _react.default.createElement(_reactBootstrap.Form.Label, {
         className: "font-weight-bold"
-      }, "Where"), _react.default.createElement(_reactBootstrap.InputGroup, {
+      }, "Start Time"), _react.default.createElement(_reactBootstrap.InputGroup, {
+        className: "mb-3"
+      }, _react.default.createElement(_reactBootstrap.InputGroup.Prepend, null, _react.default.createElement(_reactBootstrap.InputGroup.Text, null, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
+        icon: _freeSolidSvgIcons.faClock
+      }))), _react.default.createElement(_reactBootstrap.Form.Control, {
+        name: "timeStartDate",
+        type: "time",
+        onBlur: this.onInputChange,
+        defaultValue: this.state.timeStartDate.value
+      })), this.state.timeStartDate.errors.map(function (err, i) {
+        return _react.default.createElement(_reactBootstrap.Form.Text, {
+          key: i,
+          className: "text-danger"
+        }, err);
+      })))), _react.default.createElement(_reactBootstrap.Row, null, _react.default.createElement(_reactBootstrap.Col, null, _react.default.createElement(_reactBootstrap.Form.Group, {
+        style: {
+          width: "270px",
+          marginRight: "60px"
+        }
+      }, _react.default.createElement(_reactBootstrap.Form.Label, {
+        className: "font-weight-bold"
+      }, "End Date"), _react.default.createElement(_reactBootstrap.InputGroup, {
+        className: "mb-3"
+      }, _react.default.createElement(_reactBootstrap.InputGroup.Prepend, null, _react.default.createElement(_reactBootstrap.InputGroup.Text, null, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
+        icon: _freeSolidSvgIcons.faCalendar
+      }))), _react.default.createElement(_reactBootstrap.Form.Control, {
+        name: "endDate",
+        type: "date",
+        onBlur: this.onInputChange,
+        defaultValue: this.state.endDate.value
+      })), this.state.endDate.errors.map(function (err, i) {
+        return _react.default.createElement(_reactBootstrap.Form.Text, {
+          key: i,
+          className: "text-danger"
+        }, err);
+      }))), _react.default.createElement(_reactBootstrap.Col, null, _react.default.createElement(_reactBootstrap.Form.Group, {
+        style: {
+          width: "150px"
+        }
+      }, _react.default.createElement(_reactBootstrap.Form.Label, {
+        className: "font-weight-bold"
+      }, "End Time"), _react.default.createElement(_reactBootstrap.InputGroup, {
+        className: "mb-3"
+      }, _react.default.createElement(_reactBootstrap.InputGroup.Prepend, null, _react.default.createElement(_reactBootstrap.InputGroup.Text, null, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
+        icon: _freeSolidSvgIcons.faClock
+      }))), _react.default.createElement(_reactBootstrap.Form.Control, {
+        name: "timeEndDate",
+        type: "time",
+        onBlur: this.onInputChange,
+        defaultValue: this.state.timeEndDate.value
+      })), this.state.timeEndDate.errors.map(function (err, i) {
+        return _react.default.createElement(_reactBootstrap.Form.Text, {
+          key: i,
+          className: "text-danger"
+        }, err);
+      })))), _react.default.createElement(_reactBootstrap.Form.Group, null, _react.default.createElement(_reactBootstrap.Form.Label, {
+        className: "font-weight-bold"
+      }, "Location"), _react.default.createElement(_reactBootstrap.InputGroup, {
         className: "mb-3"
       }, _react.default.createElement(_reactBootstrap.InputGroup.Prepend, null, _react.default.createElement(_reactBootstrap.InputGroup.Text, null, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
         icon: _freeSolidSvgIcons.faLocationArrow
       }))), _react.default.createElement(_reactBootstrap.Form.Control, {
-        id: "where",
-        name: "where",
-        placeholder: "Enter Event Position",
+        id: "location",
+        name: "location",
+        placeholder: "Enter Event location",
         onBlur: this.onInputChange,
-        defaultValue: this.state.where.value
-      })), this.state.where.errors.map(function (err, i) {
+        defaultValue: this.state.location.value
+      })), this.state.location.errors.map(function (err, i) {
         return _react.default.createElement(_reactBootstrap.Form.Text, {
           key: i,
           className: "text-danger"
@@ -61376,7 +61618,7 @@ function (_React$Component) {
 
 exports.default = UpdateEventComponent;
 UpdateEventComponent.contextType = _WishContext.default;
-},{"@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/objectSpread":"node_modules/@babel/runtime/helpers/objectSpread.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","@fortawesome/react-fontawesome":"node_modules/@fortawesome/react-fontawesome/index.es.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","@fortawesome/free-solid-svg-icons":"node_modules/@fortawesome/free-solid-svg-icons/index.es.js","./validator":"validator.js","./WishContext":"WishContext.js","./api":"api.js"}],"MyEventsComponent.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/objectSpread":"node_modules/@babel/runtime/helpers/objectSpread.js","@babel/runtime/helpers/slicedToArray":"node_modules/@babel/runtime/helpers/slicedToArray.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","@fortawesome/react-fontawesome":"node_modules/@fortawesome/react-fontawesome/index.es.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","@fortawesome/free-solid-svg-icons":"node_modules/@fortawesome/free-solid-svg-icons/index.es.js","./validator":"validator.js","./WishContext":"WishContext.js","./api":"api.js"}],"MyEventsComponent.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -62441,7 +62683,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49689" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52321" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

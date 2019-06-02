@@ -7,6 +7,7 @@ import './general.css';
 import validator, { field } from './validator';
 import AlertDismissible from './AlertDismissible';
 
+
 export default class LoginComponent extends React.Component {
   constructor() {
     super();
@@ -46,6 +47,7 @@ export default class LoginComponent extends React.Component {
 
   render() {
     return <>
+    
       <div className="login-box" style={{ height: "470px", width: "500px", marginTop: "80px" }}>
         <h1>Login Here</h1>
         <Image src="images/avatar.png" roundedCircle className="avatar" />
