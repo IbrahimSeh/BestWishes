@@ -4,10 +4,11 @@ const WishContext = React.createContext({
   name: '',
   userID: 1,
   history: '',
-  register:(username, email, password)=>{},
+  register: (username, email, password) => { },
   login: (email, userId) => { },
   logout: () => { },
-  getHistory: (history) => { }
+  getHistory: (history) => { },
+  createNewEvent: (title, category, startDate, endDate, location, userId) => { }
 });
 
 export default WishContext;

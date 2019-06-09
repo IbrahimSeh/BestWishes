@@ -14,7 +14,7 @@ export default class MyWishes extends React.Component {
     }
   }
   async componentDidMount() {
-    const result = await api.getWishes(this.props.match.params.userID, this.context.userID);
+    const result = await api.getWishes(this.props.match.params.userID);
     const { eventWishes } = result;
     this.setState({ wishes: eventWishes });
   }

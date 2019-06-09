@@ -19,25 +19,22 @@ const getEvents = () => {
         }, 500);
     })
 }
-const getWishes = async (eventId, userId) => {
+const getWishes = async (eventId) => {
     try {
-        const token = "userId:" + userId;
-        const result = await axios.get(URL + '/events', { headers: { Authorization: `Bearer ${token}` } });
+        const result = await axios.get(URL + '/event/' + eventId);
         const { data } = result;
-        const { wishes } = data.filter(event => event.userId == userId).filter(event => event.id == eventId)[0];
+        const { wishes } = data[0];
         return { eventWishes: wishes }
     } catch (error) {
         console.dir(error);
         return { error };
     }
 }
-const getEvent = async (eventId, userId) => {
+const getEvent = async (eventId) => {
     try {
-        const token = "userId:" + userId;
-        const result = await axios.get(URL + '/events', { headers: { Authorization: `Bearer ${token}` } });
+        const result = await axios.get(URL + '/event/' + eventId);
         const { data } = result;
-        console.log(data.filter(event => event.id == eventId));
-        return { event: data.filter(event => event.id == eventId)[0] }
+        return { event: data[0] }
         /*  if (data.status.code == 401) {
               return { error: data.status.message };
           } else {
@@ -61,7 +58,7 @@ const getWish = id => {
 const getUserEventsByUserID = async (userId) => {
     try {
         const token = "userId:" + userId;
-        const result = await axios.get(URL + '/events', { headers: { Authorization: `Bearer ${token}` } });
+        const result = await axios.get(URL + '/user/my-events', { headers: { Authorization: `Bearer ${token}` } });
         const { data } = result;
         return { userEvents: data.filter(event => event.userId == userId) }
         /*  if (data.status.code == 401) {
@@ -108,6 +105,23 @@ const register = async (username, email, password) => {
         return { error };
     }
 }
+const createNewEvent = async (title, category, startDate, endDate, location, userId) => {
+
+    try {
+        const token = "userId:" + userId;
+        const result = await axios.post(URL + '/user/new-event',{title, category, startDate, endDate, location},{ headers: { Authorization: `Bearer ${token}` } });
+        const { data } = result;
+        if (data.status.code == 200) {
+            return { eventId: data.eventId };
+        } else {
+            return { error: data.error };
+        }
+    }
+    catch (error) {
+        console.dir(error);
+        return { error };
+    }
+}
 export {
     login,
     register,
@@ -116,5 +130,6 @@ export {
     getEvent,
     getUserEventsByUserID,
     getUserWishesByUserID,
-    getWish
+    getWish,
+    createNewEvent
 };

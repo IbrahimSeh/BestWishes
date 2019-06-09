@@ -67,6 +67,9 @@ export default class CreateNewEvent extends React.Component {
                 location: location.value
             }
             console.log(updatedEvent);
+            console.log(this.context.userID);
+            this.context.createNewEvent(updatedEvent.title, 3,updatedEvent.startDate,updatedEvent.endDate,updatedEvent.location,this.context.userID);
+            
         }
     }
     render() {

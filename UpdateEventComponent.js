@@ -23,7 +23,7 @@ export default class UpdateEventComponent extends React.Component {
         this.onInputChange = this.onInputChange.bind(this);
     }
     async  componentDidMount() {
-        const result = await api.getEvent(this.props.match.params.eventID, this.context.userID)
+        const result = await api.getEvent(this.props.match.params.eventID)
         const { event } = result;
         localStorage.setItem("userEvent", JSON.stringify(event));
         setTimeout(() => {

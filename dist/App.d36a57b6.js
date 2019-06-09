@@ -30725,7 +30725,8 @@ var WishContext = _react.default.createContext({
   register: function register(username, email, password) {},
   login: function login(email, userId) {},
   logout: function logout() {},
-  getHistory: function getHistory(history) {}
+  getHistory: function getHistory(history) {},
+  createNewEvent: function createNewEvent(title, category, startDate, endDate, location, userId) {}
 });
 
 var _default = WishContext;
@@ -57359,7 +57360,7 @@ module.exports = require('./lib/axios');
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getWish = exports.getUserWishesByUserID = exports.getUserEventsByUserID = exports.getEvent = exports.getEvents = exports.getWishes = exports.register = exports.login = void 0;
+exports.createNewEvent = exports.getWish = exports.getUserWishesByUserID = exports.getUserEventsByUserID = exports.getEvent = exports.getEvents = exports.getWishes = exports.register = exports.login = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -57399,51 +57400,42 @@ var getWishes =
 function () {
   var _ref = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  _regenerator.default.mark(function _callee(eventId, userId) {
-    var token, result, data, _wishes;
+  _regenerator.default.mark(function _callee(eventId) {
+    var result, data, _wishes;
 
     return _regenerator.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
-            token = "userId:" + userId;
-            _context.next = 4;
-            return _axios.default.get(URL + '/events', {
-              headers: {
-                Authorization: "Bearer ".concat(token)
-              }
-            });
+            _context.next = 3;
+            return _axios.default.get(URL + '/event/' + eventId);
 
-          case 4:
+          case 3:
             result = _context.sent;
             data = result.data;
-            _wishes = data.filter(function (event) {
-              return event.userId == userId;
-            }).filter(function (event) {
-              return event.id == eventId;
-            })[0].wishes;
+            _wishes = data[0].wishes;
             return _context.abrupt("return", {
               eventWishes: _wishes
             });
 
-          case 10:
-            _context.prev = 10;
+          case 9:
+            _context.prev = 9;
             _context.t0 = _context["catch"](0);
             console.dir(_context.t0);
             return _context.abrupt("return", {
               error: _context.t0
             });
 
-          case 14:
+          case 13:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 10]]);
+    }, _callee, null, [[0, 9]]);
   }));
 
-  return function getWishes(_x, _x2) {
+  return function getWishes(_x) {
     return _ref.apply(this, arguments);
   };
 }();
@@ -57455,31 +57447,21 @@ var getEvent =
 function () {
   var _ref2 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  _regenerator.default.mark(function _callee2(eventId, userId) {
-    var token, result, data;
+  _regenerator.default.mark(function _callee2(eventId) {
+    var result, data;
     return _regenerator.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.prev = 0;
-            token = "userId:" + userId;
-            _context2.next = 4;
-            return _axios.default.get(URL + '/events', {
-              headers: {
-                Authorization: "Bearer ".concat(token)
-              }
-            });
+            _context2.next = 3;
+            return _axios.default.get(URL + '/event/' + eventId);
 
-          case 4:
+          case 3:
             result = _context2.sent;
             data = result.data;
-            console.log(data.filter(function (event) {
-              return event.id == eventId;
-            }));
             return _context2.abrupt("return", {
-              event: data.filter(function (event) {
-                return event.id == eventId;
-              })[0]
+              event: data[0]
               /*  if (data.status.code == 401) {
                     return { error: data.status.message };
                 } else {
@@ -57488,23 +57470,23 @@ function () {
 
             });
 
-          case 10:
-            _context2.prev = 10;
+          case 8:
+            _context2.prev = 8;
             _context2.t0 = _context2["catch"](0);
             console.dir(_context2.t0);
             return _context2.abrupt("return", {
               error: _context2.t0
             });
 
-          case 14:
+          case 12:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[0, 10]]);
+    }, _callee2, null, [[0, 8]]);
   }));
 
-  return function getEvent(_x3, _x4) {
+  return function getEvent(_x2) {
     return _ref2.apply(this, arguments);
   };
 }();
@@ -57538,7 +57520,7 @@ function () {
             _context3.prev = 0;
             token = "userId:" + userId;
             _context3.next = 4;
-            return _axios.default.get(URL + '/events', {
+            return _axios.default.get(URL + '/user/my-events', {
               headers: {
                 Authorization: "Bearer ".concat(token)
               }
@@ -57575,7 +57557,7 @@ function () {
     }, _callee3, null, [[0, 9]]);
   }));
 
-  return function getUserEventsByUserID(_x5) {
+  return function getUserEventsByUserID(_x3) {
     return _ref3.apply(this, arguments);
   };
 }();
@@ -57638,7 +57620,7 @@ function () {
     }, _callee4, null, [[0, 12]]);
   }));
 
-  return function login(_x6, _x7) {
+  return function login(_x4, _x5) {
     return _ref4.apply(this, arguments);
   };
 }();
@@ -57702,12 +57684,83 @@ function () {
     }, _callee5, null, [[0, 12]]);
   }));
 
-  return function register(_x8, _x9, _x10) {
+  return function register(_x6, _x7, _x8) {
     return _ref5.apply(this, arguments);
   };
 }();
 
 exports.register = register;
+
+var createNewEvent =
+/*#__PURE__*/
+function () {
+  var _ref6 = (0, _asyncToGenerator2.default)(
+  /*#__PURE__*/
+  _regenerator.default.mark(function _callee6(title, category, startDate, endDate, location, userId) {
+    var token, result, data;
+    return _regenerator.default.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.prev = 0;
+            token = "userId:" + userId;
+            _context6.next = 4;
+            return _axios.default.post(URL + '/user/new-event', {
+              title: title,
+              category: category,
+              startDate: startDate,
+              endDate: endDate,
+              location: location
+            }, {
+              headers: {
+                Authorization: "Bearer ".concat(token)
+              }
+            });
+
+          case 4:
+            result = _context6.sent;
+            data = result.data;
+
+            if (!(data.status.code == 200)) {
+              _context6.next = 10;
+              break;
+            }
+
+            return _context6.abrupt("return", {
+              eventId: data.eventId
+            });
+
+          case 10:
+            return _context6.abrupt("return", {
+              error: data.error
+            });
+
+          case 11:
+            _context6.next = 17;
+            break;
+
+          case 13:
+            _context6.prev = 13;
+            _context6.t0 = _context6["catch"](0);
+            console.dir(_context6.t0);
+            return _context6.abrupt("return", {
+              error: _context6.t0
+            });
+
+          case 17:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, _callee6, null, [[0, 13]]);
+  }));
+
+  return function createNewEvent(_x9, _x10, _x11, _x12, _x13, _x14) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+
+exports.createNewEvent = createNewEvent;
 },{"@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js","axios":"node_modules/axios/index.js"}],"SearchedEventComponent.js":[function(require,module,exports) {
 "use strict";
 
@@ -60723,6 +60776,8 @@ function (_React$Component) {
           location: location.value
         };
         console.log(updatedEvent);
+        console.log(this.context.userID);
+        this.context.createNewEvent(updatedEvent.title, 3, updatedEvent.startDate, updatedEvent.endDate, updatedEvent.location, this.context.userID);
       }
     }
   }, {
@@ -61320,7 +61375,7 @@ function (_React$Component) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return api.getEvent(this.props.match.params.eventID, this.context.userID);
+                return api.getEvent(this.props.match.params.eventID);
 
               case 2:
                 result = _context.sent;
@@ -61869,7 +61924,7 @@ function (_React$Component) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return api.getWishes(this.props.match.params.userID, this.context.userID);
+                return api.getWishes(this.props.match.params.userID);
 
               case 2:
                 result = _context.sent;
@@ -62467,6 +62522,7 @@ function (_React$Component) {
     _this.logout = _this.logout.bind((0, _assertThisInitialized2.default)(_this));
     _this.getHistory = _this.getHistory.bind((0, _assertThisInitialized2.default)(_this));
     _this.register = _this.register.bind((0, _assertThisInitialized2.default)(_this));
+    _this.createNewEvent = _this.createNewEvent.bind((0, _assertThisInitialized2.default)(_this));
     var user;
     if (_localstorage.default.isLoggedIn()) user = _localstorage.default.getUser();else user = {
       name: '',
@@ -62477,7 +62533,8 @@ function (_React$Component) {
       register: _this.register,
       login: _this.login,
       logout: _this.logout,
-      getHistory: _this.getHistory
+      getHistory: _this.getHistory,
+      createNewEvent: _this.createNewEvent
     });
     return _this;
   }
@@ -62585,6 +62642,48 @@ function (_React$Component) {
       return login;
     }()
   }, {
+    key: "createNewEvent",
+    value: function () {
+      var _createNewEvent = (0, _asyncToGenerator2.default)(
+      /*#__PURE__*/
+      _regenerator.default.mark(function _callee3(title, category, startDate, endDate, location, userId) {
+        var result;
+        return _regenerator.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return api.createNewEvent(title, category, startDate, endDate, location, userId);
+
+              case 2:
+                result = _context3.sent;
+
+                if (!result.error) {
+                  _context3.next = 6;
+                  break;
+                }
+
+                alert(result.error);
+                return _context3.abrupt("return");
+
+              case 6:
+                console.log(result.eventId);
+
+              case 7:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      function createNewEvent(_x6, _x7, _x8, _x9, _x10, _x11) {
+        return _createNewEvent.apply(this, arguments);
+      }
+
+      return createNewEvent;
+    }()
+  }, {
     key: "getHistory",
     value: function getHistory(history) {
       this.setState({
@@ -62683,7 +62782,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52321" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59007" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
