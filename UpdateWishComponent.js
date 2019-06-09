@@ -56,7 +56,7 @@ export default class UpdateWishComponent extends React.Component {
 
         if (this.state.from.errors.length == 0 && this.state.wishing.errors.length == 0 && this.state.imageURL.errors.length == 0) {
             alert("wish updated successfully");
-          //  this.props.history.push("/event/" + this.props.match.params.eventID);
+          // this.props.history.push("/event/" + this.props.match.params.eventID);
         }
     }
 

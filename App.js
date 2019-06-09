@@ -20,85 +20,70 @@ import RedirectIfAnonymous from './RedirectIfAnonymous';
 import ShowUserEvents from './ShowUserEvents';
 import localStorageManager from './localstorage';
 import UpdateWishComponent from './UpdateWishComponent';
+import AlertDismissible from './AlertDismissible';
+import * as api from "./api";
+
+
 
 export default class App extends React.Component {
     constructor() {
         super();
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
+        this.getHistory = this.getHistory.bind(this);
+        this.register = this.register.bind(this);
+        this.createNewEvent = this.createNewEvent.bind(this);
         let user;
-        
-        if(localStorageManager.isLoggedIn()) user = localStorageManager.getUser();
-        else user = {name:'', userID: 1};
-        
+        if (localStorageManager.isLoggedIn()) user = localStorageManager.getUser();
+        else user = { name: '', userID: 1 };
         this.state = {
             ...user,
+            history: '',
+            register: this.register,
             login: this.login,
-            logout: this.logout
+            logout: this.logout,
+            getHistory: this.getHistory,
+            createNewEvent: this.createNewEvent
         };
-        if (!localStorage.users) {
-            localStorage.users = JSON.stringify([
-                {
-                    "userId":"1",
-                    "name": "Ameer",
-                    "userName": "a@b.com",
-                    "password": 123456
-                },
-                {
-                    "userId":"2",
-                    "name": "Saeed",
-                    "userName": "saeednamih@gmail.com",
-                    "password": 5678
-                },
-                {
-                    "userId":"3",
-                    "name": "Sally",
-                    "userName": "sallydabbah@gmail.com",
-                    "password": 9101112
-                },
-                {   
-                    "userId":"4",
-                    "name": "Ameer",
-                    "userName": "ameer.outlook.com",
-                    "password": 12345
-                }
-            ]);
-        }
-        if (!localStorage.userWishes) {
-            localStorage.userWishes = JSON.stringify([
-                {
-                    "ID": "1",
-                    "from": "Ameer",
-                    "wishContent": "Happy birthday wish you all the best",
-                    "imageURL": "https://blog.serenataflowers.com/pollennation/wp-content/uploads/2016/05/original-happy-birthday-messages-FT.gif",
-                    "eventID": "1"
-                },
-                {
-                    "ID": "2",
-                    "from": "sally",
-                    "wishContent": "I wish that your birthday brings a new year as sweet, peppy and fiery as you my dear. Happy birthday.",
-                    "imageURL": "https://blog.serenataflowers.com/pollennation/wp-content/uploads/2016/05/original-happy-birthday-messages-FT.gif",
-                    "eventID": "1"
-                },
-                {
-                    "ID": "3",
-                    "from": "Samah seh",
-                    "wishContent": "I wish that your birthday brings a new year as sweet, peppy and fiery as you my dear. Happy birthday.",
-                    "imageURL": "https://blog.serenataflowers.com/pollennation/wp-content/uploads/2016/05/original-happy-birthday-messages-FT.gif",
-                    "eventID": "1"
-                }]);
-        }
     }
-
-    login(email,userID) {
-        const user = { name: email, userID };
+    async register(username, email, password) {
+        const result = await api.register(username, email, password);
+        if (result.error) {
+            alert(result.error);
+            return;
+        }
+        console.log(result.userId);
+        const user = { name: username, userID: result.userId };
         this.setState(user);
         localStorageManager.login(user);
+        this.state.history.push("/AlertDismissible");
+    }
+    async login(email, password) {
+        const result = await api.login(email, password);
+        if (result.error) {
+            alert(result.error);
+            return;
+        }
+        console.log(result.userId);
+        const user = { name: 'amir', userID: result.userId };
+        this.setState(user);
+        localStorageManager.login(user);
+        this.state.history.push("/AlertDismissible");
+    }
+    async createNewEvent(title, category, startDate, endDate, location,userId) {
+        const result = await api.createNewEvent(title, category, startDate, endDate, location,userId);
+        if (result.error) {
+            alert(result.error);
+            return;
+        }
+        console.log(result.eventId);
+    }
+    getHistory(history) {
+        this.setState({ history: history });
     }
     logout() {
         this.setState({ name: '', userID: -1 });
         localStorageManager.logout();
-        this.props.history.push("/");
     }
     render() {
         return (
@@ -108,10 +93,11 @@ export default class App extends React.Component {
                         <div>
                             <NavBarComponent />
                             <Switch>
+                                <Route path="/AlertDismissible" component={AlertDismissible} />
                                 <Route path="/" component={HomeComponent} exact />
                                 <Route path="/events" component={EventsComponent} />
-                                <Route path="/AddABestWishComponent/:eventID" component={AddABestWishComponent}/>
-                                <Route path="/event/:eventID" component={WishesComponent}/>
+                                <Route path="/AddABestWishComponent/:eventID" component={AddABestWishComponent} />
+                                <Route path="/event/:eventID" component={WishesComponent} />
                                 <RedirectIfAnonymous path="/wishes/:userID" component={MyWishes} />
                                 <RedirectIfAnonymous path="/CreateNewEvent" component={CreateNewEvent} />
                                 <RedirectIfAnonymous path="/UserEvents/:userID" component={ShowUserEvents} />

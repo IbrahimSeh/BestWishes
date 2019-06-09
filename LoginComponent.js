@@ -4,26 +4,21 @@ import { Form } from 'react-bootstrap';
 
 import WishContext from './WishContext';
 import './general.css';
-import * as api from "./api";
-import validator, { field, CheckExistsUsernameAndPassword } from './validator';
+import validator, { field } from './validator';
+import AlertDismissible from './AlertDismissible';
+
 
 export default class LoginComponent extends React.Component {
   constructor() {
     super();
     this.state = {
       email: field({ value: '', name: 'email',pattern: /^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$/ }),
-      password: field({ value: '', name: 'password', minLength: 2 }),
-      Users: [],
+      password: field({ value: '', name: 'password', minLength: 2 })
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
   }
-  componentDidMount() {
-    setTimeout(() => {
-      const data = api.getUsers();
-      this.setState({ Users: data }, () => console.log(this.state));
-    }, 1000);
-  }
+  
   onInputChange({ target: { name, value } }) {
     this.setState({
       [name]: {
@@ -37,39 +32,22 @@ export default class LoginComponent extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     const user = Object.assign({}, this.state);
-    const { ValidPassword, ValidUserName, LoginUserNameError, LoginPasswordError } = CheckExistsUsernameAndPassword(this.state.Users, this.state.email.value, this.state.password.value);
     for (let key in user) {
-      if (key != "Users") {
         const { value, validations } = user[key];
         const { valid, errors } = validator(value, key, validations);
         if (!valid) {
           user[key].valid = valid;
           user[key].errors = errors;
-        }
-        if (!ValidPassword && key == "password") {
-          user[key].errors = [...errors, ...LoginPasswordError];
-        }
-        if (!ValidUserName && key == "email") {
-          user[key].errors = [...errors, ...LoginUserNameError];
-        }
       }
     }
     this.setState({ ...user });
-    if (this.state.email.errors.length == 0 && this.state.password.errors.length == 0) {
-      let name = "",userID="";
-      for (let i = 0; i < this.state.Users.length; i++) {
-        if (this.state.Users[i].userName == this.state.email.value) {
-          name = this.state.Users[i].name;
-          userID= this.state.Users[i].userId;
-          break;
-        }
-      }
-      this.context.login(name,userID);
-      this.props.history.push("/");
-    }
+    this.context.login(this.state.email.value,this.state.password.value);
+    this.context.getHistory(this.props.history);
   }
+
   render() {
     return <>
+    
       <div className="login-box" style={{ height: "470px", width: "500px", marginTop: "80px" }}>
         <h1>Login Here</h1>
         <Image src="images/avatar.png" roundedCircle className="avatar" />

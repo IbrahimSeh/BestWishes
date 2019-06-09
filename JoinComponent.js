@@ -3,40 +3,21 @@ import { Button, Image } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 
 import './general.css';
-import validator, { field, checkUniqueUserName } from './validator';
-import * as api from "./api";
+import validator, { field} from './validator';
+import WishContext from './WishContext';
+
 export default class JoinComponent extends React.Component {
     constructor() {
         super();
         this.state = {
             displayName: field({ value: '', name: 'displayName', minLength: 2 }),
             Useremail: field({ value: '', name: 'Useremail', pattern: /^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$/ }),
-            UserPassword: field({ value: '', name: 'UserPassword', minLength: 2 }),
-            Users: []
+            UserPassword: field({ value: '', name: 'UserPassword', minLength: 2 })
         };
-        this.addUser = this.addUser.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.onInputChange = this.onInputChange.bind(this);
     }
-    componentDidMount() {
-        setTimeout(() => {
-            const data = api.getUsers();
-            this.setState({ Users: data }, () => console.log(this.state));
-        }, 1000);
-    }
-    addUser() {
-        if (localStorage.users) {
-            var oldUsers = JSON.parse(localStorage.getItem('users'));
-            const neWuser = {
-                userId:parseInt(this.state.Users[this.state.Users.length-1].userId)+1,
-                name: this.state.displayName.value,
-                password: this.state.UserPassword.value,
-                userName: this.state.Useremail.value
-            };
-            oldUsers.push(neWuser);
-            localStorage.setItem('users', JSON.stringify(oldUsers));
-        }
-    }
+    
     onInputChange({ target: { name, value } }) {
         this.setState({
             [name]: {
@@ -49,28 +30,17 @@ export default class JoinComponent extends React.Component {
     onSubmit(e) {
         e.preventDefault();
         const user = Object.assign({}, this.state);
-        const { userNameExists, UniqueUserNameError } = checkUniqueUserName(this.state.Users, this.state.Useremail.value);
         for (let key in user) {
-            if (key != "Users") {
                 const { value, validations } = user[key];
                 const { valid, errors } = validator(value, key, validations);
                 if (!valid) {
                     user[key].valid = valid;
                     user[key].errors = errors;
-                }
-                if (userNameExists && key == "Useremail") {
-                    user[key].errors = [...errors, ...UniqueUserNameError];
-                }
-            }
+                }  
         }
         this.setState({ ...user });
-        //Send data to somewhere 
-        //...
-        if (this.state.displayName.errors.length == 0 && this.state.Useremail.errors.length == 0 && this.state.UserPassword.errors.length == 0) {
-            alert(`User ${this.state.displayName.value} was addes successfully`);
-            this.addUser();
-            this.props.history.push("/");
-        }
+        this.context.register(this.state.displayName.value,this.state.Useremail.value,this.state.UserPassword.value);
+        this.context.getHistory(this.props.history);
     }
     render() {
         return <>
@@ -125,3 +95,4 @@ export default class JoinComponent extends React.Component {
         </>;
     }
 }
+JoinComponent.contextType=WishContext;
