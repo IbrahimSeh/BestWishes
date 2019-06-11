@@ -14,14 +14,14 @@ export default class CardComponent extends React.Component {
         this.handelText = this.handelText.bind(this);
     }
     componentDidMount() {
-        this.setState({ content: `${this.props.wishContent.substring(0, 70)}...` });
+        this.setState({ content: `${this.props.body.substring(0, 70)}...` });
     }
 
     seeMore() {
-        this.setState({ content: this.props.wishContent, seeflag: false });
+        this.setState({ content: this.props.body, seeflag: false });
     }
     seeLess() {
-        this.setState({ content: `${this.props.wishContent.substring(0, 70)}...`, seeflag: true });
+        this.setState({ content: `${this.props.body.substring(0, 70)}...`, seeflag: true });
     }
     handelText() {
 
@@ -38,7 +38,7 @@ export default class CardComponent extends React.Component {
         return <>
             <Col>
                 <Card style={{ width: '19rem', marginBottom: "15px" }}>
-                    <Card.Img variant="top" width="150px" height="150px" src={this.props.imageURL} />
+                    <Card.Img variant="top" width="150px" height="150px" src={this.props.image} />
                     <Card.Body>
                         <Card.Title>{this.props.from}</Card.Title>
                         <Card.Text>

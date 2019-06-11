@@ -6,27 +6,30 @@ import { NavLink } from 'react-router-dom';
 import * as api from './api';
 
 
+
 export default class WishesComponent extends React.Component {
   constructor() {
     super();
     this.state = {
-      events: [],
+      event: {},
       wishes: []
     }
   }
-  componentDidMount() {
-    api.getEvents()
-      .then(events => this.setState({ events }));
-    api.getWishes()
-      .then(wishes => this.setState({ wishes }));
+  async componentDidMount() {
+    const result = await api.getEvent(this.props.match.params.eventID)
+    const { event } = result;
+    console.log(event)
+    const { wishes } = event;
+    console.log(wishes);
+    this.setState({ event: event, wishes: wishes });
   }
 
   render() {
     return <>
       <Container>
         <Row>
-          <Col xs="5">
-          {this.state.events.map(({ ID, title, catagory, date, where }, i) => { return (this.props.match.params.eventID == ID) ? <EventDetailsComponent key={i} ID={ID} title={title} catagory={catagory} date={date} where={where} /> : '' })}
+          <Col md="5">
+            <EventDetailsComponent title={this.state.event.title} startDate={this.state.event.startDate} endDate={this.state.event.endDate} location={this.state.event.location} />
           </Col>
           <Col >
             <NavLink className="navbarClass" to={"/AddABestWishComponent/" + this.props.match.params.eventID} activeClassName="text-warning">
@@ -35,7 +38,7 @@ export default class WishesComponent extends React.Component {
           </Col>
         </Row>
         <Row>
-          {this.state.wishes.map(({ ID, eventID, from, wishContent, imageURL }, i) => { return (this.props.match.params.eventID == eventID) ? <CardComponent key={i} ID={ID} eventID={eventID} from={from} wishContent={wishContent} imageURL={imageURL} /> : '' })}
+          {this.state.wishes.map(({ from, body, image }, i) => { return <CardComponent key={i} from={from} body={body} image={image} /> })}
         </Row>
       </Container>
     </>;

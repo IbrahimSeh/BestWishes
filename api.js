@@ -3,22 +3,6 @@ import axios from "axios";
 
 const URL = 'http://localhost:3080';
 
-const getUserWishesByUserID = (userId) => {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            const userWishes = wishes.filter(wish => wish.userID == userId);
-            resolve(userWishes);
-        }, 500);
-    })
-}
-
-const getEvents = () => {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve(events);
-        }, 500);
-    })
-}
 const getWishes = async (eventId) => {
     try {
         const result = await axios.get(URL + '/event/' + eventId);
@@ -46,15 +30,6 @@ const getEvent = async (eventId) => {
         return { error };
     }
 }
-const getWish = id => {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            const wish = wishes.find(w => w.ID === id);
-            resolve(wish);
-        }, 500);
-    });
-}
-
 const getUserEventsByUserID = async (userId) => {
     try {
         const token = "userId:" + userId;
@@ -106,13 +81,27 @@ const register = async (username, email, password) => {
     }
 }
 const createNewEvent = async (title, category, startDate, endDate, location, userId) => {
-
     try {
         const token = "userId:" + userId;
-        const result = await axios.post(URL + '/user/new-event',{title, category, startDate, endDate, location},{ headers: { Authorization: `Bearer ${token}` } });
+        const result = await axios.post(URL + '/user/new-event', { title, category, startDate, endDate, location }, { headers: { Authorization: `Bearer ${token}` } });
         const { data } = result;
         if (data.status.code == 200) {
             return { eventId: data.eventId };
+        } else {
+            return { error: data.error };
+        }
+    }
+    catch (error) {
+        console.dir(error);
+        return { error };
+    }
+}
+const createWish = async (eventId, userId, from, body, image) => {
+    try {
+        const result = await axios.post(URL + '/new-wish/' + eventId, { userId, from, body, image });
+        const { data } = result;
+        if (data.status.code == 200) {
+            return { wishId: data.wishId };
         } else {
             return { error: data.error };
         }
@@ -126,10 +115,8 @@ export {
     login,
     register,
     getWishes,
-    getEvents,
     getEvent,
     getUserEventsByUserID,
-    getUserWishesByUserID,
-    getWish,
-    createNewEvent
+    createNewEvent,
+    createWish
 };

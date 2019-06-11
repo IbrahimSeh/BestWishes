@@ -118,10 +118,11 @@ export default class UpdateEventComponent extends React.Component {
                                 onChange={this.onInputChange}
                             >
                                 <option value="">Choose...</option>
-                                <option value="New Born">New Born</option>
-                                <option value="Wedding">Wedding</option>
-                                <option value="Birthday">Birthday</option>
-                                <option value="Party">Party</option>
+                                <option value="1">Birthdate</option>
+                                <option value="2">Wedding</option>
+                                <option value="3">New Born</option>
+                                <option value="4">LAN Party</option>
+                                <option value="5">Bar Mitzva</option>
                             </Form.Control>
                         </InputGroup>
                         {this.state.category.errors.map((err, i) => (

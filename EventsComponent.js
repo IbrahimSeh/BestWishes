@@ -14,6 +14,7 @@ import Col from 'react-bootstrap/Col'
 import { ENGINE_METHOD_PKEY_ASN1_METHS } from 'constants';
 
 
+
 export default class EventsComponent extends React.Component {
     constructor() {
         super();
@@ -24,6 +25,7 @@ export default class EventsComponent extends React.Component {
             ToDate: field({ value: '', name: 'ToDate' }),
             where: field({ value: '', name: 'where', minLength: 2 }),
             events: [],
+            event: {},
             wishes: [],
             searchedevents: [],
             searchedID: '',
@@ -78,90 +80,113 @@ export default class EventsComponent extends React.Component {
             , ...prevState.items
         }))
         this.state.inputId.value = '';
-        
+
     }
     FilterEvents(event) {
         let RightSearch = []
         this.state.events.forEach(e => {
             console.log(`e.category = ${e.category}, e.where = ${e.where}, category="${category.value}, where=${where.value}`);
-           
-             if((category.value && ToDate.value) && (FromDate.value && where.value)) {
 
-                if(((category.value == e.category) && (ToDate.value >= e.date)) && ((FromDate.value <= e.date) && (e.where == where.value ))){
-                     RightSearch.push(e);
-             }}
-             
-             else if ((category.value && ToDate.value) && (FromDate.value)) {
-                if((category.value == e.category) && ((ToDate.value >= e.date) && (FromDate.value <= e.date)))
-                RightSearch.push(e);
+            if ((category.value && ToDate.value) && (FromDate.value && where.value)) {
 
-             }
-             else if ((category.value && ToDate.value)&&(where.value)) {
-                if(((category.value == e.category) && (ToDate.value >= e.date))  && (e.where == where.value )){
-                     RightSearch.push(e);
-             }}
-             else if((category.value && FromDate.value) &&(where.value)) {
-                if(((category.value == e.category)  && (FromDate.value <= e.date)) && (e.where == where.value )){
-                     RightSearch.push(e);
-             }}
-             else if ((FromDate.value && ToDate.value) && (where.value )) {
-                if( ((ToDate.value >= e.date) && (FromDate.value <= e.date)) && (e.where == where.value )){
-                     RightSearch.push(e);
-             }}
-             else if(category.value && FromDate.value ) {
-                if((category.value == e.category) &&(FromDate.value <= e.date )){
-                     RightSearch.push(e);
-             }}
-             else if(category.value && ToDate.value) {
-                if(category.value == e.category){
-            if (ToDate.value >= e.date ){
-                RightSearch.push(e);
-             }}}
-             else if(category.value && where.value) {
-                if(category.value == e.category) {
-                    if (e.where == where.value )
-                 {
-                     RightSearch.push(e);
-             }}}
-             else if(FromDate.value && ToDate.value) {
-                if( (ToDate.value >= e.date) && (FromDate.value <= e.date)){
-                RightSearch.push(e);
-             }}
-             else if(FromDate.value && where.value) {
-                if( (FromDate.value <= e.date) && (e.where == where.value )){
-                RightSearch.push(e);
-             }}
-             else if ( ToDate.value && where.value ) {
-                if( (ToDate.value >= e.date) && (e.where == where.value )){
-                RightSearch.push(e);
-             }}
-              else if (category.value) {
-                if((e.category == category.value)){
-                     RightSearch.push(e);
-              }}
-              else if(FromDate.value ){
-                if( (FromDate.value <= e.date)){
-                RightSearch.push(e);
-              }}
-              else if(ToDate.value) {
-                if( (ToDate.value >= e.date)){
-                RightSearch.push(e);
-              }}
-              else if (where.value) {
-                if( (e.where == where.value)){
-                RightSearch.push(e);
-              }}
+                if (((category.value == e.category) && (ToDate.value >= e.date)) && ((FromDate.value <= e.date) && (e.where == where.value))) {
+                    RightSearch.push(e);
+                }
+            }
+
+            else if ((category.value && ToDate.value) && (FromDate.value)) {
+                if ((category.value == e.category) && ((ToDate.value >= e.date) && (FromDate.value <= e.date)))
+                    RightSearch.push(e);
+
+            }
+            else if ((category.value && ToDate.value) && (where.value)) {
+                if (((category.value == e.category) && (ToDate.value >= e.date)) && (e.where == where.value)) {
+                    RightSearch.push(e);
+                }
+            }
+            else if ((category.value && FromDate.value) && (where.value)) {
+                if (((category.value == e.category) && (FromDate.value <= e.date)) && (e.where == where.value)) {
+                    RightSearch.push(e);
+                }
+            }
+            else if ((FromDate.value && ToDate.value) && (where.value)) {
+                if (((ToDate.value >= e.date) && (FromDate.value <= e.date)) && (e.where == where.value)) {
+                    RightSearch.push(e);
+                }
+            }
+            else if (category.value && FromDate.value) {
+                if ((category.value == e.category) && (FromDate.value <= e.date)) {
+                    RightSearch.push(e);
+                }
+            }
+            else if (category.value && ToDate.value) {
+                if (category.value == e.category) {
+                    if (ToDate.value >= e.date) {
+                        RightSearch.push(e);
+                    }
+                }
+            }
+            else if (category.value && where.value) {
+                if (category.value == e.category) {
+                    if (e.where == where.value) {
+                        RightSearch.push(e);
+                    }
+                }
+            }
+            else if (FromDate.value && ToDate.value) {
+                if ((ToDate.value >= e.date) && (FromDate.value <= e.date)) {
+                    RightSearch.push(e);
+                }
+            }
+            else if (FromDate.value && where.value) {
+                if ((FromDate.value <= e.date) && (e.where == where.value)) {
+                    RightSearch.push(e);
+                }
+            }
+            else if (ToDate.value && where.value) {
+                if ((ToDate.value >= e.date) && (e.where == where.value)) {
+                    RightSearch.push(e);
+                }
+            }
+            else if (category.value) {
+                if ((e.category == category.value)) {
+                    RightSearch.push(e);
+                }
+            }
+            else if (FromDate.value) {
+                if ((FromDate.value <= e.date)) {
+                    RightSearch.push(e);
+                }
+            }
+            else if (ToDate.value) {
+                if ((ToDate.value >= e.date)) {
+                    RightSearch.push(e);
+                }
+            }
+            else if (where.value) {
+                if ((e.where == where.value)) {
+                    RightSearch.push(e);
+                }
+            }
         });
         localStorage.setItem('FilteredEvents', JSON.stringify(RightSearch));
         this.state.searchedevents = [];
     }
 
-    getEvent(id) {
-        const event = this.state.events.find(e => e.ID === id);
-        return event;
+    async  getEvent() {
+        try {
+            const result = await api.getEvent(this.state.inputId.value);
+            const { event } = result;
+            if (!event) alert('Invalid Event Id');
+            this.setState({ event: event });
+            return this.state.event;
+        } catch (error) {
+            console.dir(error);
+            alert(error);
+            return { error };
+        }
     }
     onInputChange({ target: { name, value } }) {
-
         this.setState({
             [name]: {
                 ...this.state[name],
@@ -175,28 +200,16 @@ export default class EventsComponent extends React.Component {
         this.props.history.push("/event/" + id);
         this.setState({ rowIsClicked: true });
     }
-    componentDidMount() {
-        api.getEvents()
-            .then(events => this.setState({ events }));
-        api.getWishes()
-            .then(wishes => this.setState({ wishes }));
-    }
+
     render() {
         {
             return <>
-
-
                 <center>
                     <Container>
                         <h1 style={{ color: "red" }} className="font-weight-bold ">Search Event</h1>
-
                         <InputGroup className="mb-10" style={{ width: "50%" }}>
                             <>
                                 <Button variant="primary" onClick={this.handleShow} >Filter</Button>
-
-
-
-
                                 <Modal show={this.state.show} onHide={this.handleClose}>
                                     <Modal.Header >
                                     </Modal.Header>
@@ -322,23 +335,18 @@ export default class EventsComponent extends React.Component {
 
                             </>
                             <FormControl
-                                id= "Byid"
+                                id="Byid"
                                 aria-describedby="basic-addon1"
                                 placeholder="Search Event By ID"
                                 name="inputId"
                                 ref='Byid'
-                                
                                 onBlur={this.onIdChange}
                             />
-
-                            <Button style={{ height: "38px" }}>
-                                <InputGroup.Text>
-                                    <FontAwesomeIcon icon={faSearch} />
-                                </InputGroup.Text>
+                            <Button style={{ height: "38px" }} onClick={this.getEvent}>
+                                Search
                             </Button>
                         </InputGroup>
                     </Container>
-
                 </center>
 
                 {
@@ -374,7 +382,7 @@ export default class EventsComponent extends React.Component {
 
 
                 {
-                    ((this.state.inputId.value && !this.state.filtered) && this.getEvent(this.state.inputId.value)) ? <>
+                    ((this.state.inputId.value && !this.state.filtered && this.state.event)) ? <>
                         <div className="col-md">
                             <center>
                                 <div>
@@ -384,13 +392,14 @@ export default class EventsComponent extends React.Component {
                                                 <th scope="col">#</th>
                                                 <th scope="col">category</th>
                                                 <th scope="col">Event Title</th>
-                                                <th scope="col">When</th>
-                                                <th scope="col">Where</th>
+                                                <th scope="col">Start Date</th>
+                                                <th scope="col">end Date</th>
+                                                <th scope="col">location</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {
-                                                <SearchedEventComponent ID={this.getEvent(this.state.inputId.value).ID} title={this.getEvent(this.state.inputId.value).title} category={this.getEvent(this.state.inputId.value).category} date={this.getEvent(this.state.inputId.value).date} click={this.rowClick} where={this.getEvent(this.state.inputId.value).where} />
+                                                <SearchedEventComponent id={this.state.event.id} title={this.state.event.title} category={this.state.event.category} startDate={this.state.event.startDate} endDate={this.state.event.endDate} click={this.rowClick} location={this.state.event.location} />
                                             }
                                         </tbody>
                                     </Table>
