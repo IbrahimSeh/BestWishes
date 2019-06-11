@@ -13,6 +13,7 @@ import EventsComponent from './EventsComponent';
 import CreateNewEvent from './CreateNewEventComponent';
 import LoginComponent from './LoginComponent';
 import UpdateEventComponent from './UpdateEventComponent';
+import CreateNewEventAlert from './CreateNewEventAlert';
 import MyEventsComponent from './MyEventsComponent';
 import SearchedEventComponent from './SearchedEventComponent';
 import MyWishes from './MyWishes';
@@ -33,17 +34,20 @@ export default class App extends React.Component {
         this.getHistory = this.getHistory.bind(this);
         this.register = this.register.bind(this);
         this.createNewEvent = this.createNewEvent.bind(this);
+        this.createWish = this.createWish.bind(this);
         let user;
         if (localStorageManager.isLoggedIn()) user = localStorageManager.getUser();
         else user = { name: '', userID: 1 };
         this.state = {
             ...user,
-            history: '',
+            history:[],
+            eventId:'',
             register: this.register,
             login: this.login,
             logout: this.logout,
             getHistory: this.getHistory,
-            createNewEvent: this.createNewEvent
+            createNewEvent: this.createNewEvent,
+            createWish: this.createWish
         };
     }
     async register(username, email, password) {
@@ -70,16 +74,26 @@ export default class App extends React.Component {
         localStorageManager.login(user);
         this.state.history.push("/AlertDismissible");
     }
-    async createNewEvent(title, category, startDate, endDate, location,userId) {
-        const result = await api.createNewEvent(title, category, startDate, endDate, location,userId);
+    async createNewEvent(title, category, startDate, endDate, location, userId) {
+        const result = await api.createNewEvent(title, category, startDate, endDate, location, userId);
         if (result.error) {
             alert(result.error);
             return;
         }
+        this.setState({eventId:result.eventId});
+        this.state.history.push("/CreateNewEventAlert");
         console.log(result.eventId);
     }
     getHistory(history) {
         this.setState({ history: history });
+    }
+    async createWish(eventId, userId, from, body, image) {
+        const result = await api.createWish(eventId, userId, from, body, image);
+        if (result.error) {
+            alert(result.error);
+            return;
+        }
+        this.state.history.push("/event/"+eventId);
     }
     logout() {
         this.setState({ name: '', userID: -1 });
@@ -94,6 +108,7 @@ export default class App extends React.Component {
                             <NavBarComponent />
                             <Switch>
                                 <Route path="/AlertDismissible" component={AlertDismissible} />
+                                <Route path="/CreateNewEventAlert" component={CreateNewEventAlert} />
                                 <Route path="/" component={HomeComponent} exact />
                                 <Route path="/events" component={EventsComponent} />
                                 <Route path="/AddABestWishComponent/:eventID" component={AddABestWishComponent} />

@@ -30721,12 +30721,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var WishContext = _react.default.createContext({
   name: '',
   userID: 1,
-  history: '',
+  eventId: '',
+  history: [],
   register: function register(username, email, password) {},
   login: function login(email, userId) {},
   logout: function logout() {},
   getHistory: function getHistory(history) {},
-  createNewEvent: function createNewEvent(title, category, startDate, endDate, location, userId) {}
+  createNewEvent: function createNewEvent(title, category, startDate, endDate, location, userId) {},
+  createWish: function createWish(eventId, userId, from, body, image) {}
 });
 
 var _default = WishContext;
@@ -57360,7 +57362,7 @@ module.exports = require('./lib/axios');
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createNewEvent = exports.getWish = exports.getUserWishesByUserID = exports.getUserEventsByUserID = exports.getEvent = exports.getEvents = exports.getWishes = exports.register = exports.login = void 0;
+exports.createWish = exports.createNewEvent = exports.getUserEventsByUserID = exports.getEvent = exports.getWishes = exports.register = exports.login = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -57372,37 +57374,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var URL = 'http://localhost:3080';
 
-var getUserWishesByUserID = function getUserWishesByUserID(userId) {
-  return new Promise(function (resolve) {
-    setTimeout(function () {
-      var userWishes = wishes.filter(function (wish) {
-        return wish.userID == userId;
-      });
-      resolve(userWishes);
-    }, 500);
-  });
-};
-
-exports.getUserWishesByUserID = getUserWishesByUserID;
-
-var getEvents = function getEvents() {
-  return new Promise(function (resolve) {
-    setTimeout(function () {
-      resolve(events);
-    }, 500);
-  });
-};
-
-exports.getEvents = getEvents;
-
 var getWishes =
 /*#__PURE__*/
 function () {
   var _ref = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee(eventId) {
-    var result, data, _wishes;
-
+    var result, data, wishes;
     return _regenerator.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -57414,9 +57392,9 @@ function () {
           case 3:
             result = _context.sent;
             data = result.data;
-            _wishes = data[0].wishes;
+            wishes = data[0].wishes;
             return _context.abrupt("return", {
-              eventWishes: _wishes
+              eventWishes: wishes
             });
 
           case 9:
@@ -57492,19 +57470,6 @@ function () {
 }();
 
 exports.getEvent = getEvent;
-
-var getWish = function getWish(id) {
-  return new Promise(function (resolve) {
-    setTimeout(function () {
-      var wish = wishes.find(function (w) {
-        return w.ID === id;
-      });
-      resolve(wish);
-    }, 500);
-  });
-};
-
-exports.getWish = getWish;
 
 var getUserEventsByUserID =
 /*#__PURE__*/
@@ -57761,6 +57726,71 @@ function () {
 }();
 
 exports.createNewEvent = createNewEvent;
+
+var createWish =
+/*#__PURE__*/
+function () {
+  var _ref7 = (0, _asyncToGenerator2.default)(
+  /*#__PURE__*/
+  _regenerator.default.mark(function _callee7(eventId, userId, from, body, image) {
+    var result, data;
+    return _regenerator.default.wrap(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            _context7.prev = 0;
+            _context7.next = 3;
+            return _axios.default.post(URL + '/new-wish/' + eventId, {
+              userId: userId,
+              from: from,
+              body: body,
+              image: image
+            });
+
+          case 3:
+            result = _context7.sent;
+            data = result.data;
+
+            if (!(data.status.code == 200)) {
+              _context7.next = 9;
+              break;
+            }
+
+            return _context7.abrupt("return", {
+              wishId: data.wishId
+            });
+
+          case 9:
+            return _context7.abrupt("return", {
+              error: data.error
+            });
+
+          case 10:
+            _context7.next = 16;
+            break;
+
+          case 12:
+            _context7.prev = 12;
+            _context7.t0 = _context7["catch"](0);
+            console.dir(_context7.t0);
+            return _context7.abrupt("return", {
+              error: _context7.t0
+            });
+
+          case 16:
+          case "end":
+            return _context7.stop();
+        }
+      }
+    }, _callee7, null, [[0, 12]]);
+  }));
+
+  return function createWish(_x15, _x16, _x17, _x18, _x19) {
+    return _ref7.apply(this, arguments);
+  };
+}();
+
+exports.createWish = createWish;
 },{"@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js","axios":"node_modules/axios/index.js"}],"SearchedEventComponent.js":[function(require,module,exports) {
 "use strict";
 
@@ -57800,9 +57830,9 @@ function (_React$Component) {
 
       return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("tr", {
         onClick: function onClick() {
-          return _this.props.click(_this.props.ID);
+          return _this.props.click(_this.props.id);
         }
-      }, _react.default.createElement("td", null, this.props.ID), _react.default.createElement("td", null, this.props.category), _react.default.createElement("td", null, this.props.title), _react.default.createElement("td", null, this.props.date), _react.default.createElement("td", null, this.props.where)));
+      }, _react.default.createElement("td", null, this.props.id), _react.default.createElement("td", null, this.props.category), _react.default.createElement("td", null, this.props.title), _react.default.createElement("td", null, this.props.startDate), _react.default.createElement("td", null, this.props.endDate), _react.default.createElement("td", null, this.props.location)));
     }
   }]);
   return SearchedEventComponent;
@@ -59266,6 +59296,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
 var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/objectSpread"));
@@ -59343,6 +59377,7 @@ function (_React$Component) {
         minLength: 2
       }),
       events: [],
+      event: {},
       wishes: [],
       searchedevents: [],
       searchedID: '',
@@ -59484,12 +59519,51 @@ function (_React$Component) {
     }
   }, {
     key: "getEvent",
-    value: function getEvent(id) {
-      var event = this.state.events.find(function (e) {
-        return e.ID === id;
-      });
-      return event;
-    }
+    value: function () {
+      var _getEvent = (0, _asyncToGenerator2.default)(
+      /*#__PURE__*/
+      _regenerator.default.mark(function _callee() {
+        var result, event;
+        return _regenerator.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return api.getEvent(this.state.inputId.value);
+
+              case 3:
+                result = _context.sent;
+                event = result.event;
+                if (!event) alert('Invalid Event Id');
+                this.setState({
+                  event: event
+                });
+                return _context.abrupt("return", this.state.event);
+
+              case 10:
+                _context.prev = 10;
+                _context.t0 = _context["catch"](0);
+                console.dir(_context.t0);
+                alert(_context.t0);
+                return _context.abrupt("return", {
+                  error: _context.t0
+                });
+
+              case 15:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[0, 10]]);
+      }));
+
+      function getEvent() {
+        return _getEvent.apply(this, arguments);
+      }
+
+      return getEvent;
+    }()
   }, {
     key: "onInputChange",
     value: function onInputChange(_ref2) {
@@ -59510,25 +59584,9 @@ function (_React$Component) {
       });
     }
   }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      api.getEvents().then(function (events) {
-        return _this2.setState({
-          events: events
-        });
-      });
-      api.getWishes().then(function (wishes) {
-        return _this2.setState({
-          wishes: wishes
-        });
-      });
-    }
-  }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       {
         return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("center", null, _react.default.createElement(_reactBootstrap.Container, null, _react.default.createElement("h1", {
@@ -59651,10 +59709,9 @@ function (_React$Component) {
         }), _react.default.createElement(_reactBootstrap.Button, {
           style: {
             height: "38px"
-          }
-        }, _react.default.createElement(_reactBootstrap.InputGroup.Text, null, _react.default.createElement(_reactFontawesome.FontAwesomeIcon, {
-          icon: _freeSolidSvgIcons.faSearch
-        })))))), this.state.filtered && !this.state.inputId.value && this.state.searchedevents.length ? _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("div", {
+          },
+          onClick: this.getEvent
+        }, "Search")))), this.state.filtered && !this.state.inputId.value && this.state.searchedevents.length ? _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("div", {
           className: "col-md"
         }, _react.default.createElement("center", null, _react.default.createElement("div", null, _react.default.createElement(_reactBootstrap.Table, {
           style: {
@@ -59686,10 +59743,10 @@ function (_React$Component) {
             category: category,
             date: date,
             where: where,
-            click: _this3.rowClick,
-            buttonClickFunc: _this3.buttonClick
+            click: _this2.rowClick,
+            buttonClickFunc: _this2.buttonClick
           });
-        }))))))) : '', this.state.inputId.value && !this.state.filtered && this.getEvent(this.state.inputId.value) ? _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("div", {
+        }))))))) : '', this.state.inputId.value && !this.state.filtered && this.state.event ? _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("div", {
           className: "col-md"
         }, _react.default.createElement("center", null, _react.default.createElement("div", null, _react.default.createElement(_reactBootstrap.Table, {
           style: {
@@ -59706,15 +59763,18 @@ function (_React$Component) {
           scope: "col"
         }, "Event Title"), _react.default.createElement("th", {
           scope: "col"
-        }, "When"), _react.default.createElement("th", {
+        }, "Start Date"), _react.default.createElement("th", {
           scope: "col"
-        }, "Where"))), _react.default.createElement("tbody", null, _react.default.createElement(_SearchedEventComponent.default, {
-          ID: this.getEvent(this.state.inputId.value).ID,
-          title: this.getEvent(this.state.inputId.value).title,
-          category: this.getEvent(this.state.inputId.value).category,
-          date: this.getEvent(this.state.inputId.value).date,
+        }, "end Date"), _react.default.createElement("th", {
+          scope: "col"
+        }, "location"))), _react.default.createElement("tbody", null, _react.default.createElement(_SearchedEventComponent.default, {
+          id: this.state.event.id,
+          title: this.state.event.title,
+          category: this.state.event.category,
+          startDate: this.state.event.startDate,
+          endDate: this.state.event.endDate,
           click: this.rowClick,
-          where: this.getEvent(this.state.inputId.value).where
+          location: this.state.event.location
         }))))))) : '');
       }
     }
@@ -59723,7 +59783,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.default = EventsComponent;
-},{"@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/helpers/objectSpread":"node_modules/@babel/runtime/helpers/objectSpread.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","@fortawesome/react-fontawesome":"node_modules/@fortawesome/react-fontawesome/index.es.js","@fortawesome/free-solid-svg-icons":"node_modules/@fortawesome/free-solid-svg-icons/index.es.js","./validator":"validator.js","./api":"api.js","./general.css":"general.css","./SearchedEventComponent":"SearchedEventComponent.js","react-bootstrap/Alert":"node_modules/react-bootstrap/Alert.js","react-bootstrap/Modal":"node_modules/react-bootstrap/Modal.js","react-bootstrap/Col":"node_modules/react-bootstrap/Col.js","constants":"../../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/constants-browserify/constants.json"}],"EventDetailsComponent.js":[function(require,module,exports) {
+},{"@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js","@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/helpers/objectSpread":"node_modules/@babel/runtime/helpers/objectSpread.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","@fortawesome/react-fontawesome":"node_modules/@fortawesome/react-fontawesome/index.es.js","@fortawesome/free-solid-svg-icons":"node_modules/@fortawesome/free-solid-svg-icons/index.es.js","./validator":"validator.js","./api":"api.js","./general.css":"general.css","./SearchedEventComponent":"SearchedEventComponent.js","react-bootstrap/Alert":"node_modules/react-bootstrap/Alert.js","react-bootstrap/Modal":"node_modules/react-bootstrap/Modal.js","react-bootstrap/Col":"node_modules/react-bootstrap/Col.js","constants":"../../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/constants-browserify/constants.json"}],"EventDetailsComponent.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -59762,11 +59822,14 @@ function (_React$Component) {
     value: function render() {
       return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(_reactBootstrap.Table, {
         className: "table tablebackground tableStyle",
-        id: "info"
+        id: "info",
+        style: {
+          width: "280px"
+        }
       }, _react.default.createElement("thead", null, _react.default.createElement("tr", null, _react.default.createElement("th", {
         scope: "col",
         colSpan: "2"
-      }, "Event Info"))), _react.default.createElement("tbody", null, _react.default.createElement("tr", null, _react.default.createElement("td", null, "title"), _react.default.createElement("td", null, this.props.title), _react.default.createElement("td", null)), _react.default.createElement("tr", null, _react.default.createElement("td", null, "When"), _react.default.createElement("td", null, this.props.date)), _react.default.createElement("tr", null, _react.default.createElement("td", null, "Where"), _react.default.createElement("td", null, this.props.where)))));
+      }, "Event Info"))), _react.default.createElement("tbody", null, _react.default.createElement("tr", null, _react.default.createElement("td", null, "title"), _react.default.createElement("td", null, this.props.title), _react.default.createElement("td", null)), _react.default.createElement("tr", null, _react.default.createElement("td", null, "Start Date"), _react.default.createElement("td", null, this.props.startDate)), _react.default.createElement("tr", null, _react.default.createElement("td", null, "End Date"), _react.default.createElement("td", null, this.props.endDate)), _react.default.createElement("tr", null, _react.default.createElement("td", null, "Location"), _react.default.createElement("td", null, this.props.location)))));
     }
   }]);
   return EventDetailsComponent;
@@ -59824,14 +59887,14 @@ function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.setState({
-        content: "".concat(this.props.wishContent.substring(0, 70), "...")
+        content: "".concat(this.props.body.substring(0, 70), "...")
       });
     }
   }, {
     key: "seeMore",
     value: function seeMore() {
       this.setState({
-        content: this.props.wishContent,
+        content: this.props.body,
         seeflag: false
       });
     }
@@ -59839,7 +59902,7 @@ function (_React$Component) {
     key: "seeLess",
     value: function seeLess() {
       this.setState({
-        content: "".concat(this.props.wishContent.substring(0, 70), "..."),
+        content: "".concat(this.props.body.substring(0, 70), "..."),
         seeflag: true
       });
     }
@@ -59870,7 +59933,7 @@ function (_React$Component) {
         variant: "top",
         width: "150px",
         height: "150px",
-        src: this.props.imageURL
+        src: this.props.image
       }), _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactBootstrap.Card.Title, null, this.props.from), _react.default.createElement(_reactBootstrap.Card.Text, null, this.state.content), _react.default.createElement(_reactBootstrap.Button, {
         variant: "primary",
         onClick: this.handelText
@@ -59888,6 +59951,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
 var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
 
@@ -59926,7 +59993,7 @@ function (_React$Component) {
     (0, _classCallCheck2.default)(this, WishesComponent);
     _this = (0, _possibleConstructorReturn2.default)(this, (0, _getPrototypeOf2.default)(WishesComponent).call(this));
     _this.state = {
-      events: [],
+      event: {},
       wishes: []
     };
     return _this;
@@ -59934,41 +60001,53 @@ function (_React$Component) {
 
   (0, _createClass2.default)(WishesComponent, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
+    value: function () {
+      var _componentDidMount = (0, _asyncToGenerator2.default)(
+      /*#__PURE__*/
+      _regenerator.default.mark(function _callee() {
+        var result, event, wishes;
+        return _regenerator.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return api.getEvent(this.props.match.params.eventID);
 
-      api.getEvents().then(function (events) {
-        return _this2.setState({
-          events: events
-        });
-      });
-      api.getWishes().then(function (wishes) {
-        return _this2.setState({
-          wishes: wishes
-        });
-      });
-    }
+              case 2:
+                result = _context.sent;
+                event = result.event;
+                console.log(event);
+                wishes = event.wishes;
+                console.log(wishes);
+                this.setState({
+                  event: event,
+                  wishes: wishes
+                });
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function componentDidMount() {
+        return _componentDidMount.apply(this, arguments);
+      }
+
+      return componentDidMount;
+    }()
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
-
       return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(_reactBootstrap.Container, null, _react.default.createElement(_reactBootstrap.Row, null, _react.default.createElement(_reactBootstrap.Col, {
-        xs: "5"
-      }, this.state.events.map(function (_ref, i) {
-        var ID = _ref.ID,
-            title = _ref.title,
-            catagory = _ref.catagory,
-            date = _ref.date,
-            where = _ref.where;
-        return _this3.props.match.params.eventID == ID ? _react.default.createElement(_EventDetailsComponent.default, {
-          key: i,
-          ID: ID,
-          title: title,
-          catagory: catagory,
-          date: date,
-          where: where
-        }) : '';
+        md: "5"
+      }, _react.default.createElement(_EventDetailsComponent.default, {
+        title: this.state.event.title,
+        startDate: this.state.event.startDate,
+        endDate: this.state.event.endDate,
+        location: this.state.event.location
       })), _react.default.createElement(_reactBootstrap.Col, null, _react.default.createElement(_reactRouterDom.NavLink, {
         className: "navbarClass",
         to: "/AddABestWishComponent/" + this.props.match.params.eventID,
@@ -59978,20 +60057,16 @@ function (_React$Component) {
           backgroundColor: "red"
         },
         className: "btn btn-primary"
-      }, "Add a Best Wish")))), _react.default.createElement(_reactBootstrap.Row, null, this.state.wishes.map(function (_ref2, i) {
-        var ID = _ref2.ID,
-            eventID = _ref2.eventID,
-            from = _ref2.from,
-            wishContent = _ref2.wishContent,
-            imageURL = _ref2.imageURL;
-        return _this3.props.match.params.eventID == eventID ? _react.default.createElement(_CardComponent.default, {
+      }, "Add a Best Wish")))), _react.default.createElement(_reactBootstrap.Row, null, this.state.wishes.map(function (_ref, i) {
+        var from = _ref.from,
+            body = _ref.body,
+            image = _ref.image;
+        return _react.default.createElement(_CardComponent.default, {
           key: i,
-          ID: ID,
-          eventID: eventID,
           from: from,
-          wishContent: wishContent,
-          imageURL: imageURL
-        }) : '';
+          body: body,
+          image: image
+        });
       }))));
     }
   }]);
@@ -59999,7 +60074,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.default = WishesComponent;
-},{"@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","./EventDetailsComponent":"EventDetailsComponent.js","./CardComponent":"CardComponent.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./api":"api.js"}],"JoinComponent.js":[function(require,module,exports) {
+},{"@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","./EventDetailsComponent":"EventDetailsComponent.js","./CardComponent":"CardComponent.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./api":"api.js"}],"JoinComponent.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -60394,8 +60469,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
-
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
 var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/objectSpread"));
@@ -60419,8 +60492,6 @@ var _reactFontawesome = require("@fortawesome/react-fontawesome");
 var _freeSolidSvgIcons = require("@fortawesome/free-solid-svg-icons");
 
 var _reactBootstrap = require("react-bootstrap");
-
-var api = _interopRequireWildcard(require("./api"));
 
 var _WishContext = _interopRequireDefault(require("./WishContext"));
 
@@ -60455,8 +60526,7 @@ function (_React$Component) {
         value: '',
         name: 'imageURL',
         minLength: 10
-      }),
-      wishes: []
+      })
     };
     _this.onSubmit = _this.onSubmit.bind((0, _assertThisInitialized2.default)(_this));
     _this.onInputChange = _this.onInputChange.bind((0, _assertThisInitialized2.default)(_this));
@@ -60468,11 +60538,6 @@ function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      api.getWishes().then(function (wishes) {
-        return _this2.setState({
-          wishes: wishes
-        });
-      });
       setTimeout(function () {
         var wish = Object.assign({}, _this2.state);
         wish.from.value = _this2.context.name;
@@ -60497,19 +60562,17 @@ function (_React$Component) {
       var wish = Object.assign({}, this.state);
 
       for (var key in wish) {
-        if (key != "wishes") {
-          var _wish$key = wish[key],
-              value = _wish$key.value,
-              validations = _wish$key.validations;
+        var _wish$key = wish[key],
+            value = _wish$key.value,
+            validations = _wish$key.validations;
 
-          var _validator = (0, _validator2.default)(value, key, validations),
-              valid = _validator.valid,
-              errors = _validator.errors;
+        var _validator = (0, _validator2.default)(value, key, validations),
+            valid = _validator.valid,
+            errors = _validator.errors;
 
-          if (!valid) {
-            wish[key].valid = valid;
-            wish[key].errors = errors;
-          }
+        if (!valid) {
+          wish[key].valid = valid;
+          wish[key].errors = errors;
         }
       }
 
@@ -60517,24 +60580,14 @@ function (_React$Component) {
 
       if (this.state.from.errors.length == 0 && this.state.Wishing.errors.length == 0 && this.state.imageURL.errors.length == 0) {
         var mywish = {
-          userID: this.context.userID,
-          ID: parseInt(this.state.wishes[this.state.wishes.length - 1].ID) + 1,
           from: this.state.from.value,
           wishContent: this.state.Wishing.value,
-          imageURL: this.state.imageURL.value,
-          eventID: this.props.match.params.eventID
+          imageURL: this.state.imageURL.value
         };
+        console.log(mywish);
         alert("added successfully");
-        this.setState(function (prevState) {
-          return {
-            wishes: [].concat((0, _toConsumableArray2.default)(prevState.wishes), [mywish])
-          };
-        }, function () {
-          this.state.wishes.map(function (item) {
-            console.log(item.from);
-          });
-        });
-        this.props.history.push("/event/" + this.props.match.params.eventID);
+        this.context.createWish(this.props.match.params.eventID, this.context.userID, mywish.from, mywish.wishContent, mywish.imageURL);
+        this.context.getHistory(this.props.history);
       }
     }
   }, {
@@ -60622,7 +60675,7 @@ function (_React$Component) {
 
 exports.default = AddABestWishComponent;
 AddABestWishComponent.contextType = _WishContext.default;
-},{"@babel/runtime/helpers/toConsumableArray":"node_modules/@babel/runtime/helpers/toConsumableArray.js","@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/helpers/objectSpread":"node_modules/@babel/runtime/helpers/objectSpread.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","@fortawesome/react-fontawesome":"node_modules/@fortawesome/react-fontawesome/index.es.js","@fortawesome/free-solid-svg-icons":"node_modules/@fortawesome/free-solid-svg-icons/index.es.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","./api":"api.js","./WishContext":"WishContext.js","./validator":"validator.js"}],"CreateNewEventComponent.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/helpers/objectSpread":"node_modules/@babel/runtime/helpers/objectSpread.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","@fortawesome/react-fontawesome":"node_modules/@fortawesome/react-fontawesome/index.es.js","@fortawesome/free-solid-svg-icons":"node_modules/@fortawesome/free-solid-svg-icons/index.es.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","./WishContext":"WishContext.js","./validator":"validator.js"}],"CreateNewEventComponent.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -60777,7 +60830,8 @@ function (_React$Component) {
         };
         console.log(updatedEvent);
         console.log(this.context.userID);
-        this.context.createNewEvent(updatedEvent.title, 3, updatedEvent.startDate, updatedEvent.endDate, updatedEvent.location, this.context.userID);
+        this.context.createNewEvent(updatedEvent.title, updatedEvent.category, updatedEvent.startDate, updatedEvent.endDate, updatedEvent.location, this.context.userID);
+        this.context.getHistory(this.props.history);
       }
     }
   }, {
@@ -60810,14 +60864,16 @@ function (_React$Component) {
       }, _react.default.createElement("option", {
         value: ""
       }, "Choose..."), _react.default.createElement("option", {
-        value: "New Born"
-      }, "New Born"), _react.default.createElement("option", {
-        value: "Wedding"
+        value: "1"
+      }, "Birthdate"), _react.default.createElement("option", {
+        value: "2"
       }, "Wedding"), _react.default.createElement("option", {
-        value: "Birthday"
-      }, "Birthday"), _react.default.createElement("option", {
-        value: "Party"
-      }, "Party"))), this.state.category.errors.map(function (err, i) {
+        value: "3"
+      }, "New Born"), _react.default.createElement("option", {
+        value: "4"
+      }, "LAN Party"), _react.default.createElement("option", {
+        value: "5"
+      }, "Bar Mitzva"))), this.state.category.errors.map(function (err, i) {
         return _react.default.createElement(_reactBootstrap.Form.Text, {
           key: i,
           className: "text-danger"
@@ -61529,14 +61585,16 @@ function (_React$Component) {
       }, _react.default.createElement("option", {
         value: ""
       }, "Choose..."), _react.default.createElement("option", {
-        value: "New Born"
-      }, "New Born"), _react.default.createElement("option", {
-        value: "Wedding"
+        value: "1"
+      }, "Birthdate"), _react.default.createElement("option", {
+        value: "2"
       }, "Wedding"), _react.default.createElement("option", {
-        value: "Birthday"
-      }, "Birthday"), _react.default.createElement("option", {
-        value: "Party"
-      }, "Party"))), this.state.category.errors.map(function (err, i) {
+        value: "3"
+      }, "New Born"), _react.default.createElement("option", {
+        value: "4"
+      }, "LAN Party"), _react.default.createElement("option", {
+        value: "5"
+      }, "Bar Mitzva"))), this.state.category.errors.map(function (err, i) {
         return _react.default.createElement(_reactBootstrap.Form.Text, {
           key: i,
           className: "text-danger"
@@ -61673,7 +61731,79 @@ function (_React$Component) {
 
 exports.default = UpdateEventComponent;
 UpdateEventComponent.contextType = _WishContext.default;
-},{"@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/objectSpread":"node_modules/@babel/runtime/helpers/objectSpread.js","@babel/runtime/helpers/slicedToArray":"node_modules/@babel/runtime/helpers/slicedToArray.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","@fortawesome/react-fontawesome":"node_modules/@fortawesome/react-fontawesome/index.es.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","@fortawesome/free-solid-svg-icons":"node_modules/@fortawesome/free-solid-svg-icons/index.es.js","./validator":"validator.js","./WishContext":"WishContext.js","./api":"api.js"}],"MyEventsComponent.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/defineProperty":"node_modules/@babel/runtime/helpers/defineProperty.js","@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/objectSpread":"node_modules/@babel/runtime/helpers/objectSpread.js","@babel/runtime/helpers/slicedToArray":"node_modules/@babel/runtime/helpers/slicedToArray.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","@fortawesome/react-fontawesome":"node_modules/@fortawesome/react-fontawesome/index.es.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js","@fortawesome/free-solid-svg-icons":"node_modules/@fortawesome/free-solid-svg-icons/index.es.js","./validator":"validator.js","./WishContext":"WishContext.js","./api":"api.js"}],"CreateNewEventAlert.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
+
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
+
+var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
+
+var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
+
+var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _WishContext = _interopRequireDefault(require("./WishContext"));
+
+var _reactBootstrap = require("react-bootstrap");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var CreateNewEventAlert =
+/*#__PURE__*/
+function (_React$Component) {
+  (0, _inherits2.default)(CreateNewEventAlert, _React$Component);
+
+  function CreateNewEventAlert(props, context) {
+    var _this;
+
+    (0, _classCallCheck2.default)(this, CreateNewEventAlert);
+    _this = (0, _possibleConstructorReturn2.default)(this, (0, _getPrototypeOf2.default)(CreateNewEventAlert).call(this, props, context));
+    _this.handleClose = _this.handleClose.bind((0, _assertThisInitialized2.default)(_this));
+    _this.state = {
+      show: true
+    };
+    return _this;
+  }
+
+  (0, _createClass2.default)(CreateNewEventAlert, [{
+    key: "handleClose",
+    value: function handleClose() {
+      this.setState({
+        show: false
+      });
+      this.props.history.push("/");
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(_reactBootstrap.Modal, {
+        show: this.state.show,
+        onHide: this.handleClose
+      }, _react.default.createElement(_reactBootstrap.Modal.Header, {
+        closeButton: true
+      }, _react.default.createElement(_reactBootstrap.Modal.Title, null, "Event Id Is:")), _react.default.createElement(_reactBootstrap.Modal.Body, null, "eventId: ", this.context.eventId), _react.default.createElement(_reactBootstrap.Modal.Footer, null, _react.default.createElement(_reactBootstrap.Button, {
+        variant: "primary",
+        onClick: this.handleClose
+      }, "Close"))));
+    }
+  }]);
+  return CreateNewEventAlert;
+}(_react.default.Component);
+
+exports.default = CreateNewEventAlert;
+CreateNewEventAlert.contextType = _WishContext.default;
+},{"@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","./WishContext":"WishContext.js","react-bootstrap":"node_modules/react-bootstrap/es/index.js"}],"MyEventsComponent.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -62486,6 +62616,8 @@ var _LoginComponent = _interopRequireDefault(require("./LoginComponent"));
 
 var _UpdateEventComponent = _interopRequireDefault(require("./UpdateEventComponent"));
 
+var _CreateNewEventAlert = _interopRequireDefault(require("./CreateNewEventAlert"));
+
 var _MyEventsComponent = _interopRequireDefault(require("./MyEventsComponent"));
 
 var _SearchedEventComponent = _interopRequireDefault(require("./SearchedEventComponent"));
@@ -62523,18 +62655,21 @@ function (_React$Component) {
     _this.getHistory = _this.getHistory.bind((0, _assertThisInitialized2.default)(_this));
     _this.register = _this.register.bind((0, _assertThisInitialized2.default)(_this));
     _this.createNewEvent = _this.createNewEvent.bind((0, _assertThisInitialized2.default)(_this));
+    _this.createWish = _this.createWish.bind((0, _assertThisInitialized2.default)(_this));
     var user;
     if (_localstorage.default.isLoggedIn()) user = _localstorage.default.getUser();else user = {
       name: '',
       userID: 1
     };
     _this.state = (0, _objectSpread2.default)({}, user, {
-      history: '',
+      history: [],
+      eventId: '',
       register: _this.register,
       login: _this.login,
       logout: _this.logout,
       getHistory: _this.getHistory,
-      createNewEvent: _this.createNewEvent
+      createNewEvent: _this.createNewEvent,
+      createWish: _this.createWish
     });
     return _this;
   }
@@ -62667,14 +62802,18 @@ function (_React$Component) {
                 return _context3.abrupt("return");
 
               case 6:
+                this.setState({
+                  eventId: result.eventId
+                });
+                this.state.history.push("/CreateNewEventAlert");
                 console.log(result.eventId);
 
-              case 7:
+              case 9:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3);
+        }, _callee3, this);
       }));
 
       function createNewEvent(_x6, _x7, _x8, _x9, _x10, _x11) {
@@ -62690,6 +62829,48 @@ function (_React$Component) {
         history: history
       });
     }
+  }, {
+    key: "createWish",
+    value: function () {
+      var _createWish = (0, _asyncToGenerator2.default)(
+      /*#__PURE__*/
+      _regenerator.default.mark(function _callee4(eventId, userId, from, body, image) {
+        var result;
+        return _regenerator.default.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return api.createWish(eventId, userId, from, body, image);
+
+              case 2:
+                result = _context4.sent;
+
+                if (!result.error) {
+                  _context4.next = 6;
+                  break;
+                }
+
+                alert(result.error);
+                return _context4.abrupt("return");
+
+              case 6:
+                this.state.history.push("/event/" + eventId);
+
+              case 7:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function createWish(_x12, _x13, _x14, _x15, _x16) {
+        return _createWish.apply(this, arguments);
+      }
+
+      return createWish;
+    }()
   }, {
     key: "logout",
     value: function logout() {
@@ -62708,6 +62889,9 @@ function (_React$Component) {
       }, _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement("div", null, _react.default.createElement(_NavBarComponent.default, null), _react.default.createElement(_reactRouterDom.Switch, null, _react.default.createElement(_reactRouterDom.Route, {
         path: "/AlertDismissible",
         component: _AlertDismissible.default
+      }), _react.default.createElement(_reactRouterDom.Route, {
+        path: "/CreateNewEventAlert",
+        component: _CreateNewEventAlert.default
       }), _react.default.createElement(_reactRouterDom.Route, {
         path: "/",
         component: _HomeComponent.default,
@@ -62754,7 +62938,7 @@ function (_React$Component) {
 exports.default = App;
 
 _reactDom.default.render(_react.default.createElement(App, null), document.querySelector('#container'));
-},{"@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js","@babel/runtime/helpers/objectSpread":"node_modules/@babel/runtime/helpers/objectSpread.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./WishContext":"WishContext.js","./NavBarComponent":"NavBarComponent.js","./HomeComponent":"HomeComponent.js","./JoinComponent":"JoinComponent.js","./AboutComponent":"AboutComponent.js","./AddABestWishComponent":"AddABestWishComponent.js","./WishesComponent":"WishesComponent.js","./EventsComponent":"EventsComponent.js","./CreateNewEventComponent":"CreateNewEventComponent.js","./LoginComponent":"LoginComponent.js","./UpdateEventComponent":"UpdateEventComponent.js","./MyEventsComponent":"MyEventsComponent.js","./SearchedEventComponent":"SearchedEventComponent.js","./MyWishes":"MyWishes.js","./RedirectIfAnonymous":"RedirectIfAnonymous.js","./ShowUserEvents":"ShowUserEvents.js","./localstorage":"localstorage.js","./UpdateWishComponent":"UpdateWishComponent.js","./AlertDismissible":"AlertDismissible.js","./api":"api.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js","@babel/runtime/helpers/objectSpread":"node_modules/@babel/runtime/helpers/objectSpread.js","@babel/runtime/helpers/classCallCheck":"node_modules/@babel/runtime/helpers/classCallCheck.js","@babel/runtime/helpers/createClass":"node_modules/@babel/runtime/helpers/createClass.js","@babel/runtime/helpers/possibleConstructorReturn":"node_modules/@babel/runtime/helpers/possibleConstructorReturn.js","@babel/runtime/helpers/getPrototypeOf":"node_modules/@babel/runtime/helpers/getPrototypeOf.js","@babel/runtime/helpers/assertThisInitialized":"node_modules/@babel/runtime/helpers/assertThisInitialized.js","@babel/runtime/helpers/inherits":"node_modules/@babel/runtime/helpers/inherits.js","react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./WishContext":"WishContext.js","./NavBarComponent":"NavBarComponent.js","./HomeComponent":"HomeComponent.js","./JoinComponent":"JoinComponent.js","./AboutComponent":"AboutComponent.js","./AddABestWishComponent":"AddABestWishComponent.js","./WishesComponent":"WishesComponent.js","./EventsComponent":"EventsComponent.js","./CreateNewEventComponent":"CreateNewEventComponent.js","./LoginComponent":"LoginComponent.js","./UpdateEventComponent":"UpdateEventComponent.js","./CreateNewEventAlert":"CreateNewEventAlert.js","./MyEventsComponent":"MyEventsComponent.js","./SearchedEventComponent":"SearchedEventComponent.js","./MyWishes":"MyWishes.js","./RedirectIfAnonymous":"RedirectIfAnonymous.js","./ShowUserEvents":"ShowUserEvents.js","./localstorage":"localstorage.js","./UpdateWishComponent":"UpdateWishComponent.js","./AlertDismissible":"AlertDismissible.js","./api":"api.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -62782,7 +62966,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59007" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49970" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

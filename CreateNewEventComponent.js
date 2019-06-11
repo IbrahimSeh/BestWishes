@@ -68,8 +68,8 @@ export default class CreateNewEvent extends React.Component {
             }
             console.log(updatedEvent);
             console.log(this.context.userID);
-            this.context.createNewEvent(updatedEvent.title, 3,updatedEvent.startDate,updatedEvent.endDate,updatedEvent.location,this.context.userID);
-            
+            this.context.createNewEvent(updatedEvent.title,updatedEvent.category,updatedEvent.startDate,updatedEvent.endDate,updatedEvent.location,this.context.userID);
+            this.context.getHistory(this.props.history);
         }
     }
     render() {
@@ -93,10 +93,11 @@ export default class CreateNewEvent extends React.Component {
                                 onChange={this.onInputChange}
                             >
                                 <option value="">Choose...</option>
-                                <option value="New Born">New Born</option>
-                                <option value="Wedding">Wedding</option>
-                                <option value="Birthday">Birthday</option>
-                                <option value="Party">Party</option>
+                                <option value="1">Birthdate</option>
+                                <option value="2">Wedding</option>
+                                <option value="3">New Born</option>
+                                <option value="4">LAN Party</option>
+                                <option value="5">Bar Mitzva</option>
                             </Form.Control>
                         </InputGroup>
                         {this.state.category.errors.map((err, i) => (

@@ -5,7 +5,7 @@ import {Table} from 'react-bootstrap';
 export default class EventDetailsComponent extends React.Component {
     render() {
         return <>
-            <Table className="table tablebackground tableStyle" id="info">
+            <Table className="table tablebackground tableStyle" id="info" style={{width:"280px"}}>
                 <thead>
                     <tr>
                         <th scope="col" colSpan="2">Event Info</th>
@@ -18,12 +18,16 @@ export default class EventDetailsComponent extends React.Component {
                         <td></td>
                     </tr>
                     <tr>
-                        <td>When</td>
-                        <td>{this.props.date}</td>
+                        <td>Start Date</td>
+                        <td>{this.props.startDate}</td>
                     </tr>
                     <tr>
-                        <td>Where</td>
-                        <td>{this.props.where}</td>
+                        <td>End Date</td>
+                        <td>{this.props.endDate}</td>
+                    </tr>
+                    <tr>
+                        <td>Location</td>
+                        <td>{this.props.location}</td>
                     </tr>
                 </tbody>
             </Table>
