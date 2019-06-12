@@ -61845,7 +61845,7 @@ function (_React$Component) {
       this.setState({
         show: false
       });
-      this.props.history.push("/");
+      this.props.history.push("/UserEvents/" + this.context.userID);
     }
   }, {
     key: "render",
@@ -63073,7 +63073,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64020" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64297" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
