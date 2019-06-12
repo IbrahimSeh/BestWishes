@@ -11,7 +11,7 @@ export default class CreateNewEventAlert extends React.Component {
     }
     handleClose() {
         this.setState({ show: false });
-        this.props.history.push("/");
+        this.props.history.push("/UserEvents/" + this.context.userID);
     }
     render() {
         return (
