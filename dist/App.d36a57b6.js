@@ -30728,7 +30728,8 @@ var WishContext = _react.default.createContext({
   logout: function logout() {},
   getHistory: function getHistory(history) {},
   createNewEvent: function createNewEvent(title, category, startDate, endDate, location, userId) {},
-  createWish: function createWish(eventId, userId, from, body, image) {}
+  createWish: function createWish(eventId, userId, from, body, image) {},
+  editEvent: function editEvent(eventId, userId, title, category, startDate, endDate, location) {}
 });
 
 var _default = WishContext;
@@ -57362,7 +57363,7 @@ module.exports = require('./lib/axios');
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createWish = exports.createNewEvent = exports.getUserEventsByUserID = exports.getEvent = exports.getWishes = exports.register = exports.login = void 0;
+exports.createWish = exports.editEvent = exports.createNewEvent = exports.getUserEventsByUserID = exports.getEvent = exports.getWishes = exports.register = exports.login = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -57791,6 +57792,77 @@ function () {
 }();
 
 exports.createWish = createWish;
+
+var editEvent =
+/*#__PURE__*/
+function () {
+  var _ref8 = (0, _asyncToGenerator2.default)(
+  /*#__PURE__*/
+  _regenerator.default.mark(function _callee8(eventId, userId, title, category, startDate, endDate, location) {
+    var token, result, data;
+    return _regenerator.default.wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            _context8.prev = 0;
+            token = "userId:" + userId;
+            _context8.next = 4;
+            return _axios.default.put(URL + "/user/event/" + eventId, {
+              title: title,
+              category: category,
+              startDate: startDate,
+              endDate: endDate,
+              location: location
+            }, {
+              headers: {
+                Authorization: "Bearer ".concat(token)
+              }
+            });
+
+          case 4:
+            result = _context8.sent;
+            data = result.data;
+
+            if (!(data.status.code == 200)) {
+              _context8.next = 10;
+              break;
+            }
+
+            return _context8.abrupt("return", {
+              eventId: data.eventId
+            });
+
+          case 10:
+            return _context8.abrupt("return", {
+              error: data.error
+            });
+
+          case 11:
+            _context8.next = 17;
+            break;
+
+          case 13:
+            _context8.prev = 13;
+            _context8.t0 = _context8["catch"](0);
+            console.dir(_context8.t0);
+            return _context8.abrupt("return", {
+              error: _context8.t0
+            });
+
+          case 17:
+          case "end":
+            return _context8.stop();
+        }
+      }
+    }, _callee8, null, [[0, 13]]);
+  }));
+
+  return function editEvent(_x20, _x21, _x22, _x23, _x24, _x25, _x26) {
+    return _ref8.apply(this, arguments);
+  };
+}();
+
+exports.editEvent = editEvent;
 },{"@babel/runtime/regenerator":"node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"node_modules/@babel/runtime/helpers/asyncToGenerator.js","axios":"node_modules/axios/index.js"}],"SearchedEventComponent.js":[function(require,module,exports) {
 "use strict";
 
@@ -60584,8 +60656,6 @@ function (_React$Component) {
           wishContent: this.state.Wishing.value,
           imageURL: this.state.imageURL.value
         };
-        console.log(mywish);
-        alert("added successfully");
         this.context.createWish(this.props.match.params.eventID, this.context.userID, mywish.from, mywish.wishContent, mywish.imageURL);
         this.context.getHistory(this.props.history);
       }
@@ -60801,7 +60871,6 @@ function (_React$Component) {
       this.setState((0, _objectSpread2.default)({}, event));
 
       if (this.state.category.errors.length == 0 && this.state.title.errors.length == 0 && this.state.startDate.errors.length == 0 && this.state.endDate.errors.length == 0 && this.state.timeStartDate.errors.length == 0 && this.state.timeEndDate.errors.length == 0 && this.state.location.errors.length == 0) {
-        alert("successfully updated");
         var category = event.category,
             title = event.title,
             startDate = event.startDate,
@@ -61454,8 +61523,6 @@ function (_React$Component) {
 
                   startDate = StartDate.split('-').reverse().join('-');
                   endDate = EndDate.split('-').reverse().join('-');
-                  console.log("startDate: " + startDate);
-                  console.log("endDate: " + endDate);
                   var month = startDate.substring(8, 10),
                       day = startDate.substring(5, 7),
                       year = startDate.substring(0, 4);
@@ -61525,25 +61592,20 @@ function (_React$Component) {
       this.setState((0, _objectSpread2.default)({}, event));
 
       if (this.state.category.errors.length == 0 && this.state.title.errors.length == 0 && this.state.startDate.errors.length == 0 && this.state.endDate.errors.length == 0 && this.state.timeStartDate.errors.length == 0 && this.state.timeEndDate.errors.length == 0 && this.state.location.errors.length == 0) {
-        alert("successfully updated");
         var category = event.category,
             title = event.title,
             startDate = event.startDate,
             endDate = event.endDate,
             location = event.location;
         var newstartDate = startDate.value.split('-').reverse().join('-') + ' ' + event.timeStartDate.value;
-        var newendDate = endDate.value.split('-').reverse().join('-') + ' ' + event.timeEndDate.value; // console.log("newstartDate: " + newstartDate)
-        // console.log("newendDate: " + newendDate)
-
+        var newendDate = endDate.value.split('-').reverse().join('-') + ' ' + event.timeEndDate.value;
         var month = newstartDate.substring(3, 5),
             day = newstartDate.substring(0, 2),
-            year = newstartDate.substring(6, 10); // console.log(day, month, year)
-
+            year = newstartDate.substring(6, 10);
         var newStartDate = month + '-' + day + '-' + year;
         month = newendDate.substring(3, 5), day = newendDate.substring(0, 2), year = newendDate.substring(6, 10);
         var newEndDate = month + '-' + day + '-' + year;
-        newStartDate = newStartDate + ' ' + event.timeStartDate.value; // console.log("newStartDate: " + newStartDate)
-
+        newStartDate = newStartDate + ' ' + event.timeStartDate.value;
         newEndDate = newEndDate + ' ' + event.timeEndDate.value;
         var updatedEvent = {
           category: category.value,
@@ -61552,7 +61614,8 @@ function (_React$Component) {
           endDate: newEndDate,
           location: location.value
         };
-        console.log(updatedEvent);
+        this.context.editEvent(this.props.match.params.eventID, this.context.userID, updatedEvent.title, updatedEvent.category, updatedEvent.startDate, updatedEvent.endDate, updatedEvent.location);
+        this.context.getHistory(this.props.history);
       }
     }
   }, {
@@ -62656,6 +62719,7 @@ function (_React$Component) {
     _this.register = _this.register.bind((0, _assertThisInitialized2.default)(_this));
     _this.createNewEvent = _this.createNewEvent.bind((0, _assertThisInitialized2.default)(_this));
     _this.createWish = _this.createWish.bind((0, _assertThisInitialized2.default)(_this));
+    _this.editEvent = _this.editEvent.bind((0, _assertThisInitialized2.default)(_this));
     var user;
     if (_localstorage.default.isLoggedIn()) user = _localstorage.default.getUser();else user = {
       name: '',
@@ -62669,7 +62733,8 @@ function (_React$Component) {
       logout: _this.logout,
       getHistory: _this.getHistory,
       createNewEvent: _this.createNewEvent,
-      createWish: _this.createWish
+      createWish: _this.createWish,
+      editEvent: _this.editEvent
     });
     return _this;
   }
@@ -62700,7 +62765,6 @@ function (_React$Component) {
                 return _context.abrupt("return");
 
               case 6:
-                console.log(result.userId);
                 user = {
                   name: username,
                   userID: result.userId
@@ -62711,7 +62775,7 @@ function (_React$Component) {
 
                 this.state.history.push("/AlertDismissible");
 
-              case 11:
+              case 10:
               case "end":
                 return _context.stop();
             }
@@ -62823,25 +62887,18 @@ function (_React$Component) {
       return createNewEvent;
     }()
   }, {
-    key: "getHistory",
-    value: function getHistory(history) {
-      this.setState({
-        history: history
-      });
-    }
-  }, {
-    key: "createWish",
+    key: "editEvent",
     value: function () {
-      var _createWish = (0, _asyncToGenerator2.default)(
+      var _editEvent = (0, _asyncToGenerator2.default)(
       /*#__PURE__*/
-      _regenerator.default.mark(function _callee4(eventId, userId, from, body, image) {
+      _regenerator.default.mark(function _callee4(eventId, userId, title, category, startDate, endDate, location) {
         var result;
         return _regenerator.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
-                return api.createWish(eventId, userId, from, body, image);
+                return api.editEvent(eventId, userId, title, category, startDate, endDate, location);
 
               case 2:
                 result = _context4.sent;
@@ -62855,7 +62912,7 @@ function (_React$Component) {
                 return _context4.abrupt("return");
 
               case 6:
-                this.state.history.push("/event/" + eventId);
+                this.state.history.push("/UserEvents/" + this.state.userID);
 
               case 7:
               case "end":
@@ -62865,7 +62922,57 @@ function (_React$Component) {
         }, _callee4, this);
       }));
 
-      function createWish(_x12, _x13, _x14, _x15, _x16) {
+      function editEvent(_x12, _x13, _x14, _x15, _x16, _x17, _x18) {
+        return _editEvent.apply(this, arguments);
+      }
+
+      return editEvent;
+    }()
+  }, {
+    key: "getHistory",
+    value: function getHistory(history) {
+      this.setState({
+        history: history
+      });
+    }
+  }, {
+    key: "createWish",
+    value: function () {
+      var _createWish = (0, _asyncToGenerator2.default)(
+      /*#__PURE__*/
+      _regenerator.default.mark(function _callee5(eventId, userId, from, body, image) {
+        var result;
+        return _regenerator.default.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return api.createWish(eventId, userId, from, body, image);
+
+              case 2:
+                result = _context5.sent;
+
+                if (!result.error) {
+                  _context5.next = 6;
+                  break;
+                }
+
+                alert(result.error);
+                return _context5.abrupt("return");
+
+              case 6:
+                alert("Great");
+                this.state.history.push("/event/" + eventId);
+
+              case 8:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function createWish(_x19, _x20, _x21, _x22, _x23) {
         return _createWish.apply(this, arguments);
       }
 
@@ -62966,7 +63073,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49970" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64020" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

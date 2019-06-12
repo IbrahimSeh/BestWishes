@@ -55,8 +55,6 @@ export default class AddABestWishComponent extends React.Component {
                 wishContent: this.state.Wishing.value,
                 imageURL: this.state.imageURL.value,
             };
-            console.log(mywish);
-            alert("added successfully");
             this.context.createWish(this.props.match.params.eventID, this.context.userID, mywish.from, mywish.wishContent, mywish.imageURL);
             this.context.getHistory(this.props.history);
         }

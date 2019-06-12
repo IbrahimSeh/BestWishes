@@ -45,7 +45,6 @@ export default class CreateNewEvent extends React.Component {
         }
         this.setState({ ...event });
         if (this.state.category.errors.length == 0 && this.state.title.errors.length == 0 && this.state.startDate.errors.length == 0 && this.state.endDate.errors.length == 0 && this.state.timeStartDate.errors.length == 0 && this.state.timeEndDate.errors.length == 0 && this.state.location.errors.length == 0) {
-            alert("successfully updated");
             let { category, title, startDate, endDate, location } = event;
             const newstartDate = startDate.value.split('-').reverse().join('-') + ' ' + event.timeStartDate.value;
             const newendDate = endDate.value.split('-').reverse().join('-') + ' ' + event.timeEndDate.value;

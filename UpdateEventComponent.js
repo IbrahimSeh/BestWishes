@@ -7,6 +7,7 @@ import validator, { field } from './validator';
 import WishContext from './WishContext';
 import * as api from './api';
 
+
 export default class UpdateEventComponent extends React.Component {
     constructor() {
         super();
@@ -33,8 +34,6 @@ export default class UpdateEventComponent extends React.Component {
             const [timeStartDate, StartDate] = startDate.split(' ').reverse();
             startDate = StartDate.split('-').reverse().join('-');
             endDate = EndDate.split('-').reverse().join('-');
-            console.log("startDate: " + startDate);
-            console.log("endDate: " + endDate);
             let month = startDate.substring(8, 10), day = startDate.substring(5, 7), year = startDate.substring(0, 4);
             const newStartDate = year + '-' + month + '-' + day;
             month = endDate.substring(8, 10), day = endDate.substring(5, 7), year = endDate.substring(0, 4);
@@ -73,19 +72,14 @@ export default class UpdateEventComponent extends React.Component {
         }
         this.setState({ ...event });
         if (this.state.category.errors.length == 0 && this.state.title.errors.length == 0 && this.state.startDate.errors.length == 0 && this.state.endDate.errors.length == 0 && this.state.timeStartDate.errors.length == 0 && this.state.timeEndDate.errors.length == 0 && this.state.location.errors.length == 0) {
-            alert("successfully updated");
             let { category, title, startDate, endDate, location } = event;
             const newstartDate = startDate.value.split('-').reverse().join('-') + ' ' + event.timeStartDate.value;
             const newendDate = endDate.value.split('-').reverse().join('-') + ' ' + event.timeEndDate.value;
-            // console.log("newstartDate: " + newstartDate)
-            // console.log("newendDate: " + newendDate)
             let month = newstartDate.substring(3, 5), day = newstartDate.substring(0, 2), year = newstartDate.substring(6, 10);
-            // console.log(day, month, year)
             let newStartDate = month + '-' + day + '-' + year;
             month = newendDate.substring(3, 5), day = newendDate.substring(0, 2), year = newendDate.substring(6, 10);
             let newEndDate = month + '-' + day + '-' + year;
             newStartDate = newStartDate + ' ' + event.timeStartDate.value;
-            // console.log("newStartDate: " + newStartDate)
             newEndDate = newEndDate + ' ' + event.timeEndDate.value;
             const updatedEvent = {
                 category: category.value,
@@ -94,7 +88,8 @@ export default class UpdateEventComponent extends React.Component {
                 endDate: newEndDate,
                 location: location.value
             }
-            console.log(updatedEvent);
+            this.context.editEvent(this.props.match.params.eventID, this.context.userID, updatedEvent.title, updatedEvent.category, updatedEvent.startDate, updatedEvent.endDate, updatedEvent.location);
+            this.context.getHistory(this.props.history);
         }
     }
     render() {

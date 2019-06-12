@@ -14,7 +14,8 @@ export default class MyEventsComponent extends React.Component {
                     <td>{this.props.location}</td>
                     <td>
                         <Button onClick={() => this.props.func(this.props.ID)}>Show</Button>
-                        <NavLink className="navbarClass btn text-primary" to={"/UpdateEventComponent/" + this.props.ID} activeClassName="text-warning">
+                        <NavLink className="navbarClass btn text-primary" to={"/UpdateEventComponent/" + this.props.ID}
+                            activeClassName="text-warning">
                             Update
                         </NavLink>
                         <Button className="font-weight-bold" variant="primary" style={{ border: "2px solid red" }}>Delete</Button>

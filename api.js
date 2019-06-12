@@ -1,6 +1,7 @@
 
 import axios from "axios";
 
+
 const URL = 'http://localhost:3080';
 
 const getWishes = async (eventId) => {
@@ -111,6 +112,21 @@ const createWish = async (eventId, userId, from, body, image) => {
         return { error };
     }
 }
+const editEvent = async (eventId, userId, title, category, startDate, endDate, location) => {
+    try {
+        const token = "userId:" + userId;
+        const result = await axios.put(URL + "/user/event/" + eventId, { title, category, startDate, endDate, location },{ headers: { Authorization: `Bearer ${token}` } });
+        const { data } = result;
+        if (data.status.code == 200) {
+            return { eventId: data.eventId };
+        } else {
+            return { error: data.error };
+        }
+    } catch (error) {
+        console.dir(error);
+        return { error };
+    }
+}
 export {
     login,
     register,
@@ -118,5 +134,6 @@ export {
     getEvent,
     getUserEventsByUserID,
     createNewEvent,
+    editEvent,
     createWish
 };
