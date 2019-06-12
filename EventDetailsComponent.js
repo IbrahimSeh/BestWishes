@@ -1,11 +1,11 @@
 import React from 'react';
-import {Table} from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 
 
 export default class EventDetailsComponent extends React.Component {
     render() {
         return <>
-            <Table className="table tablebackground tableStyle" id="info" style={{width:"280px"}}>
+            <Table className="table tablebackground tableStyle" id="info" style={{ width: "280px" }}>
                 <thead>
                     <tr>
                         <th scope="col" colSpan="2">Event Info</th>

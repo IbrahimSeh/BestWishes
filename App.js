@@ -35,19 +35,21 @@ export default class App extends React.Component {
         this.register = this.register.bind(this);
         this.createNewEvent = this.createNewEvent.bind(this);
         this.createWish = this.createWish.bind(this);
+        this.editEvent = this.editEvent.bind(this);
         let user;
         if (localStorageManager.isLoggedIn()) user = localStorageManager.getUser();
         else user = { name: '', userID: 1 };
         this.state = {
             ...user,
-            history:[],
-            eventId:'',
+            history: [],
+            eventId: '',
             register: this.register,
             login: this.login,
             logout: this.logout,
             getHistory: this.getHistory,
             createNewEvent: this.createNewEvent,
-            createWish: this.createWish
+            createWish: this.createWish,
+            editEvent: this.editEvent
         };
     }
     async register(username, email, password) {
@@ -56,7 +58,6 @@ export default class App extends React.Component {
             alert(result.error);
             return;
         }
-        console.log(result.userId);
         const user = { name: username, userID: result.userId };
         this.setState(user);
         localStorageManager.login(user);
@@ -80,9 +81,17 @@ export default class App extends React.Component {
             alert(result.error);
             return;
         }
-        this.setState({eventId:result.eventId});
+        this.setState({ eventId: result.eventId });
         this.state.history.push("/CreateNewEventAlert");
         console.log(result.eventId);
+    }
+    async editEvent(eventId, userId, title, category, startDate, endDate, location) {
+        const result = await api.editEvent(eventId, userId, title, category, startDate, endDate, location);
+        if (result.error) {
+            alert(result.error);
+            return;
+        }
+        this.state.history.push("/UserEvents/" + this.state.userID);
     }
     getHistory(history) {
         this.setState({ history: history });
@@ -93,7 +102,8 @@ export default class App extends React.Component {
             alert(result.error);
             return;
         }
-        this.state.history.push("/event/"+eventId);
+        alert("Great");
+        this.state.history.push("/event/" + eventId);
     }
     logout() {
         this.setState({ name: '', userID: -1 });
