@@ -33,7 +33,7 @@
     "react-datetime-bootstrap": "^1.4.5",
     "react-datetime-picker": "^2.4.0",
     "react-dom": "^16.8.6",
-    "react-native": "^0.59.8",
+    "react-native": "^0.62.3",
     "react-router-dom": "^5.0.0",
     "ro": "^1.2.2"
   },
